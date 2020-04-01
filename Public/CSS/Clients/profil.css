@@ -1,0 +1,64 @@
+/* ---- PROFIL ---- */
+
+#profil-full{
+    display: flex;
+}
+
+#profil-info{
+    width: 20%;
+    padding: 1em;
+    margin: 1em 0.5em 0 0;
+}
+
+#profil-info img{
+    width: 100%;
+}
+
+#profil-about{
+    width: 80%;
+    padding: 1em;
+    margin: 1em 0 0 0.5em;
+}
+
+/* ---- SIGN IN ---- */
+
+#login-full form{
+    min-height: 500px;
+    text-align: center;
+}
+
+#login-full form > *{
+    width: 80%;
+    max-width: 300px;
+    margin: 1em;
+}
+
+#login-full input:not([type=submit]){
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 2px #bbb solid;
+    padding: 1em;
+}
+
+#login-full #submit{
+    box-shadow: 0px 0px 12px -1px #3dc21b;
+	background-color: #44c767;
+	border-radius: 28px;
+	border: 1px solid #18ab29;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 1.1em;
+	padding: 8px 0;
+	text-decoration: none;
+	text-shadow: 1px 1px 10px #2f6627;
+}
+
+#login-full #submit:hover {
+	background-color: #5cbf2a;
+}
+
+#login-full #submit:active {
+	position: relative;
+	top: 3px;
+}

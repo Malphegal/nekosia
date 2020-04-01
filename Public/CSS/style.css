@@ -1,0 +1,48 @@
+/* ---- GENERAL ---- */
+
+body{
+    margin: 0;
+    background-color: #eee;
+}
+
+#wrapper{
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:visited, a:link{
+    color: inherit;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset;
+    box-shadow: 0 0 0 30px white inset;
+}
+
+/* ---- CLASSES ---- */
+
+.container{
+    background-color: white;
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+.flex-centered{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar{
+    width: 64px;
+    height: 64px;
+}

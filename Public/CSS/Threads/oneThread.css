@@ -1,0 +1,33 @@
+#content .thread-title{
+    display: flex;
+    justify-content: space-between;
+}
+
+#content .thread-title h3{
+    font-size: 1.5em;
+    margin: 1em;
+}
+
+#content .thread-title p{
+    align-self: flex-end;
+}
+
+#content .post-content{
+    padding: 1em;
+}
+
+#content .post-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#content .post-footer img{
+    width: 64px;
+    height: 64px;
+    margin-right: 1em;
+}
+
+#content .post-footer .post-client{
+    display: flex;
+    align-items: center;
+}

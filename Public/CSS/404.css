@@ -1,0 +1,31 @@
+a{
+    text-decoration: none;
+}
+
+a:visited, a:link{
+    color: orange;
+}
+
+#div-404{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 30vw;
+    height: 30vh;
+    margin: auto;
+    border: 1px solid black;
+    min-width: 350px;
+    min-height: 280px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+#div-404 hr{
+    width: 100px;
+}

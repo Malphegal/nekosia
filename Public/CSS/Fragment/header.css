@@ -1,0 +1,62 @@
+header{
+    display: flex;
+    flex-direction: column;
+}
+
+header #headerimg{
+    height: 200px;
+    background-image: url('../../Img/Header/header.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+header > div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33% 34% 33%;
+    text-align: center;
+}
+
+header h1{
+    margin: 0.2em 0;
+}
+
+header #useravatar{
+    width: 64px;
+    height: 64px;
+    margin: 0.2em 0;
+}
+
+header #subheader{
+    background-color: #fff;
+}
+
+header #header-client-profil{
+    position: relative;
+    text-align: right;
+}
+
+header #header-client-profil > label{
+    cursor: pointer;
+}
+
+header #header-client-profil ul{
+    display: none;
+    text-align: left;
+    margin: 0;
+}
+
+header #checkbox-header{
+    opacity: 0;
+}
+
+header #checkbox-header:checked + ul{
+    display: block;
+    position: absolute;
+    right: 0;
+    left: auto;
+    text-decoration: none;
+    list-style-type: none;
+}
+  
