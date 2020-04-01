@@ -2,6 +2,7 @@
 	namespace Model\Entities;
 
     use App\Entity;
+    use app\Interfaces\Comparable;
 
     /**
      * Represent one row in the Theme database table.
@@ -14,7 +15,7 @@
      * 
      * @method __toString() ToString override : get the name.
      */
-    final class Theme extends Entity{
+    final class Theme extends Entity implements Comparable{
 
         // ---- FIELDS ----
 
@@ -74,5 +75,19 @@
         public function __toString()
         {
             return $this->name;
+        }
+        
+        // -- Implements --
+        
+        /**
+         * Allow to compare 2 objects of type Theme, alphabetically sorted.
+         *
+         * @param Theme $t1 The first Theme to compare.
+         * @param Theme $t2 The second Theme to compare.
+         * @return int A sort method int value.
+         */
+        public static function compare($t1, $t2)
+        {
+            return strnatcasecmp($t1, $t2);
         }
     }

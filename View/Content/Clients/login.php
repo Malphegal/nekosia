@@ -2,7 +2,7 @@
     <form method="post" class="flex-centered">
         <h3>Connexion</h3>
         <input type="text" name="signin-nickname" placeholder="Pseudo" required/>
-        <input type="text" name="signin-pw" placeholder="Mot de passe" required/>
+        <input type="password" name="signin-pw" placeholder="Mot de passe" required/>
         <div>
             <label>Se souvenir de moi ?</label>
             <input type="checkbox" name="signin-remember" />

@@ -40,9 +40,8 @@
                 
                 if ($client !== false)
                 {
-                    Session::setCookie(Session::REMEMBER_COOKIE, isset($_POST['signin-remember']) ? 1 : 0);
                     Session::setCookie(Session::ID_COOKIE, $client->getId());
-                    Session::createClient($client->getId(), $client);
+                    Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
                 }
 
                 header("Location: index.php?ctrl=client&action=profil");
@@ -57,7 +56,7 @@
 
             return [
                 "view" => DEFAULT_TEMPLATE,
-                "data" => array("title" => TAB_TITLE . $title,
+                "data" => array("title" => $title,
                     "content" => "Clients" . DS . $page,
                     "args" => null,
                     "css" => CSS_LINK . "Clients" . DS . "profil.css\" />")
@@ -116,19 +115,23 @@
                     $avatarPath = str_replace("\\", "\\\\", $avatarPath);
                 }
 
-                $cMan->add(["nickname" => $_POST['signup-nickname'],
+                $idNewClient = $cMan->add(["nickname" => $_POST['signup-nickname'],
                     "email" => $_POST['signup-email'],
                     "pw" => $_POST['signup-pw'],
                     "signedup" => date("Y-m-d H:i:s"),
                     "avatar" => $avatarPath != null ? $avatarPath : AVATAR_DIR . "default_avatar.png",
                     "grade_id" => $this->defaultClientGrade]);
+
+                // Once the newly account created, connect him
+                Session::createClientWithId($idNewClient);
+
                 header("Location: index.php?ctrl=client&action=profil");
                 die();
             }
 
             return [
                 "view" => DEFAULT_TEMPLATE,
-                "data" => array("title" => TAB_TITLE . "Nous rejoindre",
+                "data" => array("title" => "Nous rejoindre",
                     "content" => "Clients" . DS . "signup.php",
                     "args" => null,
                     "css" => CSS_LINK . "Clients" . DS . "signup.css\" />")

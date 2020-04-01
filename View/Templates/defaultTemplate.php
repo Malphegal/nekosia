@@ -1,18 +1,15 @@
-<?php
-    $data = $render["data"];
-?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="icon" type="image/png" href="Public/Img/Header/default_avatar.png" />
 
-        <title><?=$data["title"]?></title>
+        <title><?= TAB_TITLE . $data["title"] ?></title>
 
         <link rel="stylesheet" type="text/css" href="<?= CSS_DIR ?>style.css" />
-        <?=$data["css"]?> <!-- <- Additional content css, optional -->
+        <?= $data["css"] ?> <!-- <- Additional content css, optional -->
         <link rel="stylesheet" type="text/css" href="<?= CSS_DIR_FRAG ?>header.css" />
 
         <link rel="stylesheet"

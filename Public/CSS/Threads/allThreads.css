@@ -1,3 +1,19 @@
+#content #allthreads-infos{
+    height: 90px;
+    padding: 0;
+    text-align: center;
+}
+
+#content #allthreads-infos a{
+    border: 1px solid #888;
+    border-radius: 8px;
+    padding: 0.5em 1em;
+}
+
+#content #allthreads-infos > div{
+    width: 50%;
+}
+
 #content .inline-thread{
     padding: 0 1em;
     display: flex;

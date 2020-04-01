@@ -42,6 +42,12 @@ input:-webkit-autofill:active{
     justify-content: center;
 }
 
+.flex-centered-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .avatar{
     width: 64px;
     height: 64px;

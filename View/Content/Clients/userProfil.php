@@ -6,10 +6,11 @@
         <p>Nous a rejoint le : <time datetime="<?= $_SESSION[App\Session::SIGNEDUP_SES]->format('Y-m-d') ?>"><?= $_SESSION[App\Session::SIGNEDUP_SES]->format('d m Y') ?></time></p>
     </div>
     <div id="profil-about" class="container">
-        <p>À propos de vous :</p>
+        <p>À propos de vous : [Bientôt disponible]</p>
         <?php
             foreach ($_SESSION as $key => $value){
-                echo "<p>$key : " . ($value instanceof DateTime ? $value->format('Y m d') : $value) . "</p>";
+                if ($key != "user_id")
+                    echo "<p>" . substr($key, 5) . " : " . ($value instanceof DateTime ? $value->format('Y m d') : $value) . "</p>";
             }
         ?>
     </div>

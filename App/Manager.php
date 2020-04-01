@@ -22,7 +22,8 @@
         /**
          * Connect to the database.
          */
-        protected function connect(){
+        protected function connect()
+        {
             DAO::connect();
         }
                 
@@ -31,7 +32,8 @@
          *
          * @return array|null All records, or 'null' if none.
          */
-        public function findAll(){
+        public function findAll()
+        {
             $sql = "SELECT *
                     FROM " . $this->tableName . " a";
 
@@ -47,7 +49,8 @@
          * @param mixed $id The requested ID.
          * @return class An object of a type based on the name of the table, or 'false' if there is no record.
          */
-        public function findOneById($id){
+        public function findOneById($id)
+        {
             $sql = "SELECT *
                     FROM " . $this->tableName . " a
                     WHERE a.id_" . $this->tableName . " = :id";
@@ -64,7 +67,8 @@
          * @param array $data Data of the new record.
          * @return int The number of affected rows in the database.
          */
-        public function add($data){
+        public function add($data)
+        {
             $keys = array_keys($data);
             $values = array_values($data);
             $sql = "INSERT INTO " . $this->tableName . "
@@ -82,9 +86,13 @@
          * @param mixed $class The class name of the new objects.
          * @return array An array of the newly created objects.
          */
-        protected function getMultipleResults($rows, $class){
+        protected function getMultipleResults($rows, $class)
+        {
+            if ($rows == null)
+                return null;
             $res = [];
-            foreach($rows as $row){
+            foreach($rows as $row)
+            {
 				$classNamespace = ENTITY_NS . $class;
                 $res[] = new $classNamespace($row);
             }
@@ -98,8 +106,10 @@
          * @param mixed $class The class name of the new object.
          * @return object|false The newly created object, or 'false' if there is no raw row.
          */
-        protected function getOneOrNullResult($row, $class){
-            if($row != null){
+        protected function getOneOrNullResult($row, $class)
+        {
+            if($row != null)
+            {
 				$classWithNamespace = ENTITY_NS . $class;
                 return new $classWithNamespace($row);
             }

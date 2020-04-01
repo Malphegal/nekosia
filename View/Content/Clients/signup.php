@@ -11,13 +11,13 @@
             <div class="i-container flex-centered">
                 <i class="fas fa-key"></i>
             </div>
-            <input type="text" name="signup-pw" placeholder="Mot de passe" required />
+            <input type="password" name="signup-pw" placeholder="Mot de passe" required />
         </div>
         <div class="logo-input">
             <div class="i-container flex-centered">
                 <i class="fas fa-at"></i>
             </div>
-            <input type="text" name="signup-email" placeholder="E-mail" required />
+            <input type="email" name="signup-email" placeholder="E-mail" required />
         </div>
         <div class="logo-input">
             <div class="i-container flex-centered">

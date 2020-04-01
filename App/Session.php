@@ -8,9 +8,12 @@
      * Manager the user session, and cookies.
      * 
      * @method init() The session init.
-     * @method setCookie() Create a cookie remaining 50 years.
+     * @method setCookie() Create a cookie remaining 1 year.
      * @method destroyCookie() Destroy a cookie.
-     * @method destroyCookie() Check if the user is connected.
+     * @method destroySessionVariable() Destroy a session variable.
+     * @method isConnected() Check if the user is connected.
+     * @method createClientWithId() Creates the logged in client in session, based on id.
+     * @method destoyClientSession() Unset the whole user session, and his cookies.
      */
     abstract class Session{
 
@@ -37,16 +40,16 @@
          */
         public static function init()
         {
-            self::$cookiesLength = strtotime('+50 year');
+            self::$cookiesLength = strtotime('+1 year');
             session_start();
             if (isset($_COOKIE[self::REMEMBER_COOKIE]) && isset($_COOKIE[self::ID_COOKIE])){
                 if (!self::isConnected() && $_COOKIE[self::REMEMBER_COOKIE] == true)
-                    self::createClient($_COOKIE[self::ID_COOKIE]);
+                    self::createClientWithId($_COOKIE[self::ID_COOKIE], $_COOKIE[self::REMEMBER_COOKIE]);
             }
         }
         
         /**
-         * Create a cookie remaining 50 years.
+         * Create a cookie remaining 1 year.
          *
          * @param string $name A Session const.
          * @param mixed $value The new value of the cookie.
@@ -98,19 +101,38 @@
         }
         
         /**
-         * Creates the logged in client in session.
+         * Creates the logged in client in session, based on id.
          *
          * @param int $id Client id.
+         * @param int $rememberMe=null Int value that represents a bool, will the client stay connected after closing the browser ?
          */
-        public static function createClient($id, $client = null)
+        public static function createClientWithId($id, $rememberMe = null)
         {
-            if ($client == null)
-            {
-                $cMan = new ClientManager();
-                $client = $cMan->findOneById($id);
-            }
+            // Reset the cookies timer
+            self::setCookie(self::ID_COOKIE, $id);
+            if (isset($_COOKIE[self::REMEMBER_COOKIE]) && $_COOKIE[self::ID_COOKIE] == 1)
+                self::setCookie(self::REMEMBER_COOKIE, 1);
+
+            $cMan = new ClientManager();
+            $client = $cMan->findOneById($id);
+            if ($client !== false)
+                self::createClientWithObject($client, $rememberMe);
+            else
+                self::destoyClientSession(true);
+        }
+        
+        /**
+         * Creates the logged in client in session, based on its object.
+         *
+         * @param Client $client Full client object.
+         * @param int $rememberMe=null Int value that represents a bool, will the client stay connected after closing the browser ?
+         */
+        public static function createClientWithObject($client, $rememberMe = null)
+        {
             if ($client !== false)
             {
+                if ($rememberMe != null)
+                    self::setCookie(self::REMEMBER_COOKIE, $rememberMe);
                 $_SESSION[self::ID_SES] = $client->getId();
                 $_SESSION[self::NICKNAME_SES] = $client->getNickname();
                 $_SESSION[self::EMAIL_SES] = $client->getEmail();
@@ -134,7 +156,8 @@
             }
             else
             {
-                self::setCookie(self::REMEMBER_COOKIE, 0);
+                if (isset($_COOKIE[self::REMEMBER_COOKIE]))
+                    self::setCookie(self::REMEMBER_COOKIE, 0);
             }
             self::destroySessionVariable(self::ID_SES);
             self::destroySessionVariable(self::NICKNAME_SES);

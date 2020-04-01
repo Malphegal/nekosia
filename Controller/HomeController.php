@@ -3,6 +3,7 @@
 
     use App\Session;
     use Model\Managers\PostManager;
+    use Model\Managers\ThemeManager;
     use Model\Managers\ThreadManager;
 
     /**
@@ -10,6 +11,7 @@
      *
      * @method index() Invoke the index page. It shows every threads.
      * @method showThread() Show posts of one thread.
+     * @method newThread() Allow to create a new Thread.
      * @method invoke404() Invoke the 404.php page, and die().
      */
     class HomeController{
@@ -28,21 +30,28 @@
             $tMan = new ThreadManager();
             $threads = $tMan->findAll();
 
-            // Sort by date
-            usort($threads, array("Model\\Entities\\Thread", "compare"));
+            $res = null;
 
-            $pMan = new PostManager();
-            
-            $res = [];
-            foreach($threads as $t){
-                $posts = $pMan->findAllByThreadId($t->getId());
-                usort($posts, array("Model\\Entities\\Post", "compare"));
-                $res[] = [$t, $posts[0], count($posts)];
+            // Only do operations if there is at least 1 Thread
+            if ($threads != null)
+            {
+                // Sort by date
+                usort($threads, array("Model\\Entities\\Thread", "compare"));
+    
+                $pMan = new PostManager();
+                
+                $res = [];
+                foreach($threads as $t)
+                {
+                    $posts = $pMan->findAllByThreadId($t->getId());
+                    usort($posts, array("Model\\Entities\\Post", "compare"));
+                    $res[] = [$t, $posts[0], count($posts)];
+                }
             }
 
             return [
                 "view" => DEFAULT_TEMPLATE,
-                "data" => array("title" => TAB_TITLE . "Accueil",
+                "data" => array("title" => "Accueil",
                     "content" => "Threads" . DS . "allThreads.php",
                     "args" => $res,
                     "css" => CSS_LINK . "Threads" . DS . "allThreads.css\" />")
@@ -56,9 +65,8 @@
          */
         public function showThread($id)
         {
-            if (!is_numeric($id)){
+            if (!is_numeric($id))
                 self::invoke404();
-            }
 
             $tMan = new ThreadManager();
             $thread = $tMan->findOneById($id);
@@ -90,10 +98,63 @@
 
             return [
                 "view" => DEFAULT_TEMPLATE,
-                "data" => array("title" => TAB_TITLE . $thread->getTitle(),
+                "data" => array("title" => $thread->getTitle(),
                     "content" => "Threads" . DS . "oneThread.php",
                     "args" => [$thread, $posts],
                     "css" => CSS_LINK . "Threads" . DS . "oneThread.css\" />")
+            ];
+        }
+        
+        /**
+         * Allow to create a new Thread.
+         */
+        public function newThread()
+        {
+            if (!Session::isConnected())
+                self::invoke404();
+
+            if (isset($_POST["newthread-theme"]) && !empty($_POST["newthread-theme"])
+                && isset($_POST["newthread-title"]) && !empty($_POST["newthread-title"])
+                && isset($_POST["newthread-post"]) && !empty($_POST["newthread-post"]))
+            {
+                // Add Thread
+                $tMan = new ThreadManager();
+                $threadId = $tMan->add(["title" => str_replace("'", "''", $_POST["newthread-title"]),
+                    "creation" => date("Y-m-d H:i:s"),
+                    "locked" => 0,
+                    "lattest_edit" => date("Y-m-d H:i:s"),
+                    "theme_id" => $_POST["newthread-theme"],
+                    "client_id" => $_SESSION[Session::ID_SES]]);
+
+                // Add Post to the Thread
+                $pMan = new PostManager();
+                $pMan->add(["body" => str_replace("'", "''", $_POST["newthread-post"]),
+                    "creation" => date("Y-m-d H:i:s"),
+                    "lattest_edit" => date("Y-m-d H:i:s"),
+                    "thread_id" => $threadId,
+                    "client_id" => $_SESSION[Session::ID_SES]]);
+
+                header("Location: index.php?ctrl=home&action=showThread&id=$threadId");
+                die();
+            }
+
+            // Find all themes
+            $themeMan = new ThemeManager();
+            $themes = $themeMan->findAll();
+
+            $args = [];
+            foreach ($themes as $t)
+                $args[$t->getId()] = $t->getName();
+
+            // Sort by name
+            usort($themes, array("Model\\Entities\\Theme", "compare"));
+
+            return [
+                "view" => DEFAULT_TEMPLATE,
+                "data" => array("title" => "Une envie de discuter !",
+                    "content" => "Threads" . DS . "newThread.php",
+                    "args" => $args,
+                    "css" => CSS_LINK . "Threads" . DS . "newThread.css\" />")
             ];
         }
         

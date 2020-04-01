@@ -1,5 +1,15 @@
-<?php $count = 0; ?>
-<?php foreach ($args_content as $key => $value): ?>
+<div id="allthreads-infos" class="container flex-centered-row">
+    <div id="new-topic">
+        <?php if (App\Session::isConnected()): ?>
+            <label>Envie de discuter ? Créé un nouveau topic !</label>
+            <a href="index.php?ctrl=home&action=newThread">Go</a>
+        <?php endif; ?>
+    </div>
+    <div>
+
+    </div>
+</div>
+<?php if ($args_content != null) foreach ($args_content as $key => $value): ?>
     <div class="container inline-thread">
         <div class="thread-img-container">
             <img src="<?= $value[0]->getClient()->getAvatar() ?>" />
@@ -15,4 +25,7 @@
             <p>(0 vue)</p>
         </div>
     </div>
-<?php $count++; endforeach; ?>
+<?php endforeach; else ?>
+    <div class="container">
+        <p>Il n'y a aucun topic ! Allons créer un topic ensemble !</p>
+    </div>
