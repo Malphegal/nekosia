@@ -86,7 +86,7 @@
                     "lattest_edit" => date("Y-m-d H:i:s"),
                     "thread_id" => $id,
                     "client_id" => $_SESSION[Session::ID_SES]]);
-                header("location: index.php?action=showThread&id=$id");
+                header("location: " . RELATIVE_DIR . "home/showThread/$id");
                 die();
             }
             
@@ -134,7 +134,7 @@
                     "thread_id" => $threadId,
                     "client_id" => $_SESSION[Session::ID_SES]]);
 
-                header("Location: index.php?ctrl=home&action=showThread&id=$threadId");
+                header("Location: " . RELATIVE_DIR . "home/showThread/$threadId");
                 die();
             }
 

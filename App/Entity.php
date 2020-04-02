@@ -42,8 +42,10 @@
                 $method = "set" . ucfirst($fieldArray[0]);
                 if(method_exists($this, $method))
                     $this->$method($value);
+                // TODO: Ce else est pour le debug !
                 else{
-                    echo $method . " existe pas ! (" . get_class($this) . ")<br />";
+                    if ($method != "setPw")
+                        echo $method . " existe pas ! (" . get_class($this) . ")<br />";
                 }
             }
         }

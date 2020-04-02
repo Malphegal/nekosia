@@ -15,9 +15,6 @@
      * @method getEmail() Get the value of email.
      * @method setEmail() Set the value of email.
      * 
-     * @method getPw() Get the value of pw.
-     * @method setPw() Set the value of pw.
-     * 
      * @method getSignedup() Get the value of signedup.
      * @method setSignedup() Set the value of signedup.
      * 
@@ -36,7 +33,6 @@
         private $id;
         private $nickname;
         private $email;
-        private $pw;
         private $signedup;
         private $avatar;
         private $grade;
@@ -102,24 +98,6 @@
         public function setEmail($email)
         {
             $this->email = $email;
-        }
-        
-        /** 
-         * Get the value of pw.
-         */ 
-        public function getPw()
-        {
-            return $this->pw;
-        }
-
-        /**
-         * Set the value of pw.
-         *
-         * @param string $pw The new pw value.
-         */ 
-        public function setPw($pw)
-        {
-            $this->pw = $pw;
         }
 
         /**

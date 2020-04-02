@@ -8,10 +8,9 @@
     <div id="profil-about" class="container">
         <p>À propos de vous : [Bientôt disponible]</p>
         <?php
-            foreach ($_SESSION as $key => $value){
-                if ($key != "user_id")
+            foreach ($_SESSION as $key => $value)
+                if ($key != "user_id" && $key != "user_avatar")
                     echo "<p>" . substr($key, 5) . " : " . ($value instanceof DateTime ? $value->format('Y m d') : $value) . "</p>";
-            }
         ?>
     </div>
 </div>

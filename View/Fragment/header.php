@@ -3,8 +3,8 @@
     <div id="headerimg">
         </div>
     <div id="subheader">
-        <div>
-
+        <div class="flex-centered">
+            
         </div>
         <div class="flex-centered">
             <h1><a href="<?= RELATIVE_DIR ?>">Nekosia</a></h1>
@@ -16,8 +16,8 @@
             </label>
             <input id="checkbox-header" type="checkbox" />
             <ul class="container">
-                <li><a href="<?= RELATIVE_DIR ?>index.php?ctrl=client&action=profil"><?= $isConnected ? "Profil" : "Se connecter" ?></a></li>
-                <?= $isConnected ? "<li><a href=\"" . RELATIVE_DIR . "index.php?ctrl=client&action=logout\">Se déconnecter</a></li>" : "" ?>
+                <li><a href="<?= RELATIVE_DIR ?>client/profil"><?= $isConnected ? "Profil" : "Se connecter" ?></a></li>
+                <?= $isConnected ? "<li><a href=\"" . RELATIVE_DIR . "client/logout\">Se déconnecter</a></li>" : "" ?>
             </ul>
         </div>
     </div>

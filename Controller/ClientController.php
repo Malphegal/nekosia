@@ -44,7 +44,7 @@
                     Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
                 }
 
-                header("Location: index.php?ctrl=client&action=profil");
+                header("Location: " . RELATIVE_DIR . "client/profil");
                 die();
             }
 
@@ -79,8 +79,8 @@
         {
             if (Session::isConnected())
                 header("Location: " . RELATIVE_DIR);
-            
-            if (isset($_POST["signup-nickname"]) && isset($_POST["signup-pw"]) && isset($_POST["signup-email"]))
+
+            if (isset($_POST["signup-nickname"]) && isset($_POST["signup-pw"]) && isset($_POST["signup-email"]) && isset($_FILES["signup-avatar"]))
             {
                 // -- Check if the Client already exists
 
@@ -88,16 +88,16 @@
                 $exist = $cMan->findWithName($_POST["signup-nickname"]);
                 if ($exist)
                 {
-                    header("Location: index.php?ctrl=client&action=signup");
+                    header("Location: " . RELATIVE_DIR . "client/signup");
                     die();
                 }
-
+                
                 // -- If he does not exist, add a new Client, if the avatar is valid
 
                 $avatarPath = null;
-                
+
                 // If the user uploaded an image
-                if (isset($_FILES["signup-avatar"]))
+                if (!empty($_FILES["signup-avatar"]["name"]))
                 {
                     // TODO: The file name should be randomized and unique!
                     $type = $_FILES["signup-avatar"]["type"];
@@ -105,27 +105,30 @@
                     $avatarPath = AVATAR_DIR . strtolower($_POST["signup-nickname"]) . "." . $type;
                     
                     // If the image is NOT valid or does exist already, abort
-                    if (file_exists($avatarPath) || !move_uploaded_file($_FILES["signup-avatar"]["tmp_name"], $avatarPath))
+                    if (file_exists($avatarPath) || !move_uploaded_file($_FILES["signup-avatar"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . $avatarPath))
                     {
-                        header("Location: index.php?ctrl=client&action=signup");
+                        header("Location: " . RELATIVE_DIR . "client/signup");
                         die();
                     }
                     
                     // For SQL, escape '\'
                     $avatarPath = str_replace("\\", "\\\\", $avatarPath);
                 }
+                else{
+                    $avatarPath = str_replace("\\", "\\\\", AVATAR_DIR . "default_avatar.png");
+                }
 
                 $idNewClient = $cMan->add(["nickname" => $_POST['signup-nickname'],
                     "email" => $_POST['signup-email'],
                     "pw" => $_POST['signup-pw'],
                     "signedup" => date("Y-m-d H:i:s"),
-                    "avatar" => $avatarPath != null ? $avatarPath : AVATAR_DIR . "default_avatar.png",
+                    "avatar" => $avatarPath,
                     "grade_id" => $this->defaultClientGrade]);
 
                 // Once the newly account created, connect him
                 Session::createClientWithId($idNewClient);
 
-                header("Location: index.php?ctrl=client&action=profil");
+                header("Location: " . RELATIVE_DIR . "client/profil");
                 die();
             }
 

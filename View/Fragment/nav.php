@@ -1,3 +1,3 @@
 <nav>
-    <a href="index.php">Accueil</a>
+    <a href="<?= RELATIVE_DIR ?>">Accueil</a>
 </nav>

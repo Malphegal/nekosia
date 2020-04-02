@@ -3,8 +3,6 @@
 
     use App\Entity;
 
-    //define("IMG_CLIENT", "public" . DS . "img" . DS ."Clients" . DS);
-
     /**
      * Represent one row in the Client database table.
      * 
