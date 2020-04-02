@@ -1,16 +1,11 @@
 <div id="profil-full">
     <div id="profil-info" class="container">
-        <img src="<?= $_SESSION[App\Session::AVATAR_SES] ?>" />
-        <p><?= $_SESSION[App\Session::NICKNAME_SES] ?></p>
-        <p><?= $_SESSION[App\Session::EMAIL_SES] ?></p>
-        <p>Nous a rejoint le : <time datetime="<?= $_SESSION[App\Session::SIGNEDUP_SES]->format('Y-m-d') ?>"><?= $_SESSION[App\Session::SIGNEDUP_SES]->format('d m Y') ?></time></p>
+        <img src="<?= $args_content[0] ?>" />
+        <p><?= $args_content[1] ?></p>
+        <p><?= $args_content[2] ?></p>
+        <p>Nous a rejoint le : <time datetime="<?= $args_content[3]->format('Y-m-d') ?>"><?= $args_content[3]->format('d m Y') ?></time></p>
     </div>
     <div id="profil-about" class="container">
         <p>À propos de vous : [Bientôt disponible]</p>
-        <?php
-            foreach ($_SESSION as $key => $value)
-                if ($key != "user_id" && $key != "user_avatar")
-                    echo "<p>" . substr($key, 5) . " : " . ($value instanceof DateTime ? $value->format('Y m d') : $value) . "</p>";
-        ?>
     </div>
 </div>

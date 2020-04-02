@@ -17,11 +17,14 @@
             <div class="post-signature">
 
             </div>
-            <div class="post-client">
-                <img src="<?= $p->getClient()->getAvatar() ?>" />
-                <div>
-                    <p><time datetime="<?= $p->getCreation()->format('Y-m-d') ?>"><?= $p->getCreation()->format('d M Y à H:i:s') ?></time></p>
-                    <p><?= $p->getClient() ?></p>
+            <div class="flex-centered">
+                <?php if(App\Session::isConnected() && $p->getClient()->getNickname() == $_SESSION[App\Session::NICKNAME_SES]) echo "<a href=\"" . RELATIVE_DIR . "home/editPost/" . $p->getId() . "\" class=\"all-tags\">Editer</a>"; ?>
+                <div class="post-client">
+                    <img src="<?= $p->getClient()->getAvatar() ?>" />
+                    <div>
+                        <p><time datetime="<?= $p->getCreation()->format('Y-m-d') ?>"><?= $p->getCreation()->format('d M Y à H:i:s') ?></time></p>
+                        <p><?= $p->getClient() ?></p>
+                    </div>
                 </div>
             </div>
         </div>

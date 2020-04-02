@@ -14,6 +14,7 @@
      * @method add() Perform one 'INSERT INTO' query.
      * @method getMultipleResults() Convert raw SQL response to an array of objects.
      * @method getOneOrNullResult() Convert raw SQL response to one object.
+     * @method update() Perform one 'UPDATE' query.
      */
     abstract class Manager{
         
@@ -65,7 +66,7 @@
          * Perform an 'INSERT INTO' query based on $data.
          *
          * @param array $data Data of the new record.
-         * @return int The number of affected rows in the database.
+         * @return int The number of affected records in the database.
          */
         public function add($data)
         {
@@ -104,7 +105,7 @@
          *
          * @param mixed $row Raw database response.
          * @param mixed $class The class name of the new object.
-         * @return object|false The newly created object, or 'false' if there is no raw row.
+         * @return object|false The newly created object, or 'false' if there is no raw record.
          */
         protected function getOneOrNullResult($row, $class)
         {
@@ -114,5 +115,24 @@
                 return new $classWithNamespace($row);
             }
             return false;
+        }
+        
+        /**
+         * Perform an 'UPDATE' query based on $data.
+         *
+         * @param mixed $id The id of the updated record.
+         * @param array $data Data of the updated record.
+         * @return bool Return 'true' if everything goes well, otherwhise 'false'.
+         */
+        public function update($id, $data)
+        {
+            $count = 0;
+            $totalData = count(array_keys($data));
+            $sql = "UPDATE " . $this->tableName . " SET ";
+            foreach($data as $field => $value)
+                $sql .= "$field = '$value'" . (($count++) == $totalData - 1 ? " " : ", ");
+            $sql .= "WHERE id_" . $this->tableName . " = $id";
+
+            return DAO::update($sql);
         }
     }

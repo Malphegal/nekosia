@@ -8,8 +8,8 @@
      * Manager of Client.
      * 
      * @method findAll() Get all records of the database table Client.
+     * @method findWithName() Find a client named '$nickname'.
      * @method findWithNameAndPw() Find a client based on his nickname and password. Required for log-in.
-     * @method findWithNameAndPw() Does a client named '$nickname' exist ?
      */
     class ClientManager extends Manager{
 
@@ -28,10 +28,9 @@
         // ---- METHODS ----
         
         /**
-         * Does a client named '$nickname' exist ?
+         * Find a client named '$nickname'.
          *
-         * @param string $nickname The nickname.
-         * @return bool Return 'true' if the client exist, otherwise 'false'.
+         * @param string $nickname The Client nickname.
          */
         public function findWithName($nickname)
         {
@@ -39,11 +38,10 @@
                 FROM " . $this->tableName . "
                 WHERE nickname = :nickname";
 
-            $client = $this->getOneOrNullResult(
+            return $this->getOneOrNullResult(
                 DAO::select($sql, ["nickname" => $nickname], false),
                 $this->className
             );
-            return $client !== false;
         }
 
         /**

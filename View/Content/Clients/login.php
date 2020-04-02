@@ -1,5 +1,5 @@
 <div id="login-full" class="container">
-    <form method="post" class="flex-centered" action="<?= RELATIVE_DIR ?>client/profil">
+    <form method="post" class="flex-centered" action="<?= $_SERVER["REQUEST_URI"] ?>">
         <h3>Connexion</h3>
         <input type="text" name="signin-nickname" placeholder="Pseudo" required/>
         <input type="password" name="signin-pw" placeholder="Mot de passe" required/>
@@ -9,5 +9,5 @@
         </div>
         <input type="submit" value="Se connecter" id="submit" />
     </form>
-    <a href="<?= RELATIVE_DIR ?>client/signup">Pas de compte ?</a>
+    <a href="<?= RELATIVE_DIR ?>client/signup">Pas de compte ? Viens nous rejoindre ici !</a>
 </div>

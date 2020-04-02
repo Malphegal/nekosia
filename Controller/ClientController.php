@@ -29,10 +29,11 @@
         /**
          * Show the current logged-in client, or the sign-in page.
          */
-        public function profil()
+        public function profil($profilName)
         {
             $title = "Connexion";
             $page = "login.php";
+            $res = null;
 
             if (isset($_POST['signin-nickname']) && isset($_POST['signin-pw'])){
                 $cMan = new ClientManager();
@@ -44,21 +45,39 @@
                     Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
                 }
 
-                header("Location: " . RELATIVE_DIR . "client/profil");
+                $headerLocation = "client/profil" . ($profilName == null ? "" : "/" . $profilName);
+                header("Location: " . RELATIVE_DIR . $headerLocation);
                 die();
             }
 
+            // Does not allow to show profils while disconnected
             if (Session::isConnected())
             {
-                $title = "Profil " . $_SESSION[Session::NICKNAME_SES];
+                $profilName = $profilName == null ? strtolower($_SESSION[Session::NICKNAME_SES]) : $profilName;
+    
+                // Looking for the Client in the database
+                $cMan = new ClientManager();
+                $client = $cMan->findWithName($profilName);
+    
+                // If the Client does not exist, invoke 404.php
+                if ($client == false)
+                    HomeController::invoke404();
+    
+                // Otherwise get its information
                 $page = "userProfil.php";
+                $title = $profilName;
+    
+                $res = [$client->getAvatar(),
+                    $profilName,
+                    $client->getEmail(),
+                    $client->getSignedup()];
             }
 
             return [
                 "view" => DEFAULT_TEMPLATE,
                 "data" => array("title" => $title,
                     "content" => "Clients" . DS . $page,
-                    "args" => null,
+                    "args" => $res,
                     "css" => CSS_LINK . "Clients" . DS . "profil.css\" />")
             ];
         }
@@ -70,6 +89,7 @@
         {
             Session::destoyClientSession();
             header("Location: " . RELATIVE_DIR);
+            die();
         }
         
         /**
@@ -78,14 +98,17 @@
         public function signup()
         {
             if (Session::isConnected())
+            {
                 header("Location: " . RELATIVE_DIR);
+                die();
+            }
 
             if (isset($_POST["signup-nickname"]) && isset($_POST["signup-pw"]) && isset($_POST["signup-email"]) && isset($_FILES["signup-avatar"]))
             {
                 // -- Check if the Client already exists
 
                 $cMan = new ClientManager();
-                $exist = $cMan->findWithName($_POST["signup-nickname"]);
+                $exist = $cMan->findWithName($_POST["signup-nickname"]) != null;
                 if ($exist)
                 {
                     header("Location: " . RELATIVE_DIR . "client/signup");
@@ -114,9 +137,8 @@
                     // For SQL, escape '\'
                     $avatarPath = str_replace("\\", "\\\\", $avatarPath);
                 }
-                else{
+                else
                     $avatarPath = str_replace("\\", "\\\\", AVATAR_DIR . "default_avatar.png");
-                }
 
                 $idNewClient = $cMan->add(["nickname" => $_POST['signup-nickname'],
                     "email" => $_POST['signup-email'],

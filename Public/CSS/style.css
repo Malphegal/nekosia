@@ -52,3 +52,11 @@ input:-webkit-autofill:active{
     width: 64px;
     height: 64px;
 }
+
+a.all-tags{
+    color: #999
+}
+
+a.all-tags:hover{
+    color: #bbb
+}

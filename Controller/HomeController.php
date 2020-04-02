@@ -11,6 +11,7 @@
      *
      * @method index() Invoke the index page. It shows every threads.
      * @method showThread() Show posts of one thread.
+     * @method editPost() Allow to edit a Post.
      * @method newThread() Allow to create a new Thread.
      * @method invoke404() Invoke the 404.php page, and die().
      */
@@ -101,6 +102,55 @@
                 "data" => array("title" => $thread->getTitle(),
                     "content" => "Threads" . DS . "oneThread.php",
                     "args" => [$thread, $posts],
+                    "css" => CSS_LINK . "Threads" . DS . "oneThread.css\" />")
+            ];
+        }
+        
+        /**
+         * Allow to edit a Post.
+         *
+         * @param int $id The Post id.
+         */
+        public function editPost($id)
+        {
+            if (!Session::isConnected())
+                self::invoke404();
+
+            $pMan = new PostManager();
+            $post = $pMan->findOneById($id);
+
+            // If the requested post does not exist or the post isn't affected to the current logged in user
+            if ($post == null || $post->getClient()->getId() != $_SESSION[Session::ID_SES])
+            self::invoke404();
+            
+            $thread = $post->getThread();
+            // Check if an edit has been made
+            if (isset($_POST["editpost-body"]))
+            {
+                $body = $_POST["editpost-body"];
+                
+                // If the Post's Client is not the current connected, or the body is empty, invoke 404.php
+                if (empty($body) || $post->getClient()->getId() != $_SESSION[Session::ID_SES])
+                    self::invoke404();
+
+                // Update in the database
+                if ($pMan->update($thread->getId(), ["body" => str_replace("'", "''", $body)]))
+                {
+                    header("Location: " . RELATIVE_DIR . "home/showThread/" . $thread->getId());
+                    die() ;
+                }
+                else
+                {
+                    sleep(5);
+                    self::invoke404();
+                }
+            }
+                        
+            return [
+                "view" => DEFAULT_TEMPLATE,
+                "data" => array("title" => $thread->getTitle() . " - " . "Modifier un poste",
+                    "content" => "Threads" . DS . "editPost.php",
+                    "args" => [$thread, $post],
                     "css" => CSS_LINK . "Threads" . DS . "oneThread.css\" />")
             ];
         }
