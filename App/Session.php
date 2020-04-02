@@ -56,7 +56,7 @@
          */
         public static function setCookie($name, $value)
         {
-            setcookie($name, $value, self::$cookiesLength, RELATIVE_DIR);
+            setcookie($name, $value, self::$cookiesLength, "/");
         }
         
         /**
@@ -69,7 +69,7 @@
             if (isset($_COOKIE[$name]))
             {
                 unset($_COOKIE[$name]); 
-                setcookie($name, null, time() - 3600, RELATIVE_DIR);
+                setcookie($name, null, time() - 3600, "/");
             }
         }
 
