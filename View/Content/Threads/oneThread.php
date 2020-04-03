@@ -3,7 +3,7 @@
 </div>
 
 <div class="container thread-title">
-    <h3><?= $args_content[0]->getTitle() ?></h3>
+    <h3 class="title-border"><?= "<span class=\"smaller-span\">" . $args_content[0]->getTheme() . " - </span>" . $args_content[0]->getTitle() ?></h3>
     <p>Créé le <time datetime="<?= $args_content[0]->getCreation()->format('Y-m-d') ?>"><?= $args_content[0]->getCreation()->format('d M Y') ?></time></p>
 </div>
 

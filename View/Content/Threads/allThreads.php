@@ -11,15 +11,15 @@
 </div>
 <?php if ($args_content != null) foreach ($args_content as $key => $value){ ?>
     <div class="container inline-thread">
-        <div class="thread-img-container">
+        <div class="thread-img-container border-right-80">
             <img src="<?= $value[0]->getClient()->getAvatar() ?>" />
             <p><?= $value[0]->getClient() ?></p>
         </div>
         <div class="thread-title-container">
-            <h3><a href="<?= RELATIVE_DIR ?>home/showThread/<?= $value[0]->getId() ?>"><?= $value[0]->getTitle() ?></a></h3>
+            <h3 class="title-border"><a href="<?= RELATIVE_DIR ?>home/showThread/<?= $value[0]->getId() ?>"><?= "<span class=\"smaller-span\">" . $value[0]->getTheme() . " - </span>" . $value[0]->getTitle() ?></a></h3>
             <p><?= App\Utils::newline_to_newp($value[1]->getBody()) ?></p>
         </div>
-        <div class="thread-view-container">
+        <div class="thread-view-container border-left-80">
         <p><time datetime="<?= $value[0]->getCreation()->format('Y-m-d') ?>"><?= $value[0]->getCreation()->format('d M Y') ?></time></p>
             <p><?= $value[2] ?> poste<?= $value[2] > 1 ? "s" : "" ?></p>
             <p>(0 vue)</p>

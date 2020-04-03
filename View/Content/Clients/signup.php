@@ -25,6 +25,6 @@
             </div>
             <input type="file" name="signup-avatar" accept=".png, .jpeg, .jpg" />
         </div>
-        <input type="submit" value="Créer un compte" id="submit" />
+        <input type="submit" value="Créer un compte" id="submit" class="fancy-submit" />
     </form>
 </div>
