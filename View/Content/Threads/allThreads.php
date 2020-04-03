@@ -23,7 +23,7 @@
             <p><?= App\Utils::newline_to_newp($value[1]->getBody()) ?></p>
         </div>
         <div class="thread-view-container border-left-80">
-        <p><time datetime="<?= $value[0]->getCreation()->format('Y-m-d') ?>"><?= $value[0]->getCreation()->format('d M Y') ?></time></p>
+        <p><time datetime="<?= setLocale(LC_TIME, 'fr_FR'); $value[0]->getCreation()->format('Y-m-d') ?>"><?= $value[0]->getCreation()->format('d M Y') ?></time></p>
             <p><?= $value[2] ?> poste<?= $value[2] > 1 ? "s" : "" ?></p>
             <p>(0 vue)</p>
         </div>

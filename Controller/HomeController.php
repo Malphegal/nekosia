@@ -119,31 +119,39 @@
             $pMan = new PostManager();
             $post = $pMan->findOneById($id);
 
-            // If the requested post does not exist or the post isn't affected to the current logged in user
-            if ($post == null || $post->getClient()->getId() != $_SESSION[Session::ID_SES])
-            self::invoke404();
-            
+            $isAdmin = false;
+
+            // Is the current logged in Client is admin
+            if (Session::isCurrentAdmin())
+                $isAdmin = true;
+            // If the requested post does not exist or the post isn't affected to the current logged in Client
+            if ($post != null)
+            {
+                if (($post->getClient()->getId() != $_SESSION[Session::ID_SES]) && !$isAdmin)
+                    self::invoke404();
+            }
+            else
+                self::invoke404();
+                
             $thread = $post->getThread();
+                
             // Check if an edit has been made
             if (isset($_POST["editpost-body"]))
             {
                 $body = $_POST["editpost-body"];
                 
                 // If the Post's Client is not the current connected, or the body is empty, invoke 404.php
-                if (empty($body) || $post->getClient()->getId() != $_SESSION[Session::ID_SES])
+                if (empty($body))
                     self::invoke404();
 
                 // Update in the database
-                if ($pMan->update($thread->getId(), ["body" => str_replace("'", "''", $body)]))
+                if ($pMan->update($post->getId(), ["body" => str_replace("'", "''", $body)]))
                 {
                     header("Location: " . RELATIVE_DIR . "home/showThread/" . $thread->getId());
                     die() ;
                 }
                 else
-                {
-                    sleep(5);
                     self::invoke404();
-                }
             }
                         
             return [

@@ -24,7 +24,12 @@
 
             </div>
             <div class="flex-centered">
-                <?php if(App\Session::isConnected() && App\Session::isCurrentClient($p->getClient())) echo "<a href=\"" . RELATIVE_DIR . "home/editPost/" . $p->getId() . "\" class=\"all-tags\">Editer</a>"; ?>
+                <?php
+                    if (App\Session::isConnected() && App\Session::isCurrentClient($p->getClient()))
+                        echo "<a href=\"" . RELATIVE_DIR . "home" . DS . "editPost" . DS . $p->getId() . "\" class=\"all-tags\">Editer</a>";
+                    else if (App\Session::isCurrentAdmin())
+                        echo "<a href=\"" . RELATIVE_DIR . "home" . DS . "editPost" . DS . $p->getId() . "\" class=\"admin-tags\">Editer [Admin]</a>";
+                ?>
                 <div class="post-client">
                     <img src="<?= $p->getClient()->getAvatar() ?>" />
                     <div>

@@ -4,6 +4,8 @@
     use App\Session;
     use Controller\HomeController;
 
+    setlocale(LC_TIME, 'fr_FR');
+
     // -- Defines --
 
     // -- General

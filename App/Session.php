@@ -12,6 +12,8 @@
      * @method destroyCookie() Destroy a cookie.
      * @method destroySessionVariable() Destroy a session variable.
      * @method isConnected() Check if the user is connected.
+     * @method isCurrentClient() Check whether or not the connected Client is the same as $client.
+     * @method isCurrentAdmin() Check whether or not the connected Client is an admin.
      * @method createClientWithId() Creates the logged in client in session, based on id.
      * @method destoyClientSession() Unset the whole user session, and his cookies.
      */
@@ -101,7 +103,7 @@
         }
                 
         /**
-         * Check whether or the connected Client is the same as $client.
+         * Check whether or not the connected Client is the same as $client.
          *
          * @param Client|string $client The tested client.
          * @return bool Return 'true' if the $client is the same as the connected one, otherwise 'false'.
@@ -109,6 +111,16 @@
         public static function isCurrentClient($client)
         {
             return $client == $_SESSION[self::NICKNAME_SES];
+        }
+        
+        /**
+         * Check whether or not the connected Client is an admin.
+         *
+         * @return bool Return 'true' if the current Client is an admin, otherwise 'false'.
+         */
+        public static function isCurrentAdmin()
+        {
+            return self::isConnected() && $_SESSION[self::GRADE_SES] == "Admin";
         }
 
         /**

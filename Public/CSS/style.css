@@ -119,12 +119,20 @@ textarea{
     height: 64px;
 }
 
-a.all-tags{
+#content .all-tags{
     color: #999
 }
 
-a.all-tags:hover{
+#content .all-tags:hover{
     color: #bbb
+}
+
+#content .admin-tags{
+    color: #911;
+}
+
+#content .admin-tags:hover{
+    color: #b22
 }
 
 .smaller-span{
