@@ -99,7 +99,18 @@
                 && !empty($_SESSION[self::EMAIL_SES]) && isset($_SESSION[self::EMAIL_SES]);
             return $res;
         }
-        
+                
+        /**
+         * Check whether or the connected Client is the same as $client.
+         *
+         * @param Client|string $client The tested client.
+         * @return bool Return 'true' if the $client is the same as the connected one, otherwise 'false'.
+         */
+        public static function isCurrentClient($client)
+        {
+            return $client == $_SESSION[self::NICKNAME_SES];
+        }
+
         /**
          * Creates the logged in client in session, based on id.
          *

@@ -1,0 +1,17 @@
+#content dl dt{
+    font-weight: 700;
+}
+
+#content dl dd:not(:last-child){
+    margin-bottom: 0.5em;
+}
+
+#content img{
+    width: 64px;
+    height: 64px;
+    margin-right: 1em;
+}
+
+#content .flexed > *{
+    width: 33%;
+}

@@ -21,7 +21,8 @@
     // -- Public
     define("CSS_DIR", RELATIVE_DIR . "Public" . DS . "CSS" . DS);
     define("CSS_DIR_FRAG", CSS_DIR . "Fragment" . DS);
-    define("AVATAR_DIR", RELATIVE_DIR . "Public" . DS . "Img" . DS . "Avatar" . DS);
+    define("IMG_DIR", RELATIVE_DIR . "Public" . DS . "Img" . DS);
+    define("AVATAR_DIR", IMG_DIR . "Avatar" . DS);
     define("DEFAULT_AVATAR", "default_avatar.png");
 
     // -- Controllers    

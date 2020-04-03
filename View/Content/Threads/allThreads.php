@@ -11,7 +11,10 @@
 </div>
 <?php if ($args_content != null) foreach ($args_content as $key => $value){ ?>
     <div class="container inline-thread">
-        <div class="thread-img-container border-right-80">
+        <div class="flex-centered border-right-80 is-locked">
+            <?= $value[0]->getLocked() ? "<img src=\"" . IMG_DIR . "Thread" . DS . "threadLock.png\" />" : "" ?>
+        </div>
+        <div class="thread-img-container flex-centered border-right-80">
             <img src="<?= $value[0]->getClient()->getAvatar() ?>" />
             <p><?= $value[0]->getClient() ?></p>
         </div>

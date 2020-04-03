@@ -80,7 +80,7 @@
             
             // If the form has been completed, add the new post to the database
             if (isset($_POST["newpost-body"])){
-                if (!Session::isConnected())
+                if (!Session::isConnected() || $thread->getLocked())
                     self::invoke404();
                 $pMan->add(["body" => str_replace("'", "''", $_POST["newpost-body"]),
                     "creation" => date("Y-m-d H:i:s"),
@@ -206,6 +206,19 @@
                     "args" => $args,
                     "css" => CSS_LINK . "Threads" . DS . "newThread.css\" />")
             ];
+        }
+
+        public function lockThread($id)
+        {
+            $tMan = new ThreadManager();
+            $thread = $tMan->findOneById($id);
+
+            if (!Session::isConnected() || $thread->getClient()->getId() != $_SESSION[Session::ID_SES])
+                self::invoke404();
+
+            $newValue = $thread->getLocked() ? 0 : 1;
+            $tMan->update($thread->getId(), ["locked" => $newValue]);
+            header("Location: " . RELATIVE_DIR . "home/showThread/$id");
         }
         
         /**

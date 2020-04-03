@@ -3,8 +3,14 @@
 </div>
 
 <div class="container thread-title">
-    <h3 class="title-border"><?= "<span class=\"smaller-span\">" . $args_content[0]->getTheme() . " - </span>" . $args_content[0]->getTitle() ?></h3>
-    <p>Créé le <time datetime="<?= $args_content[0]->getCreation()->format('Y-m-d') ?>"><?= $args_content[0]->getCreation()->format('d M Y') ?></time></p>
+    <div>
+        <?= $args_content[0]->getLocked() ? "<img src=\"" . IMG_DIR . "Thread" . DS . "threadLock.png\" class=\"img-64\" />" : "" ?>
+        <h3 class="title-border inline-blocked"><?= "<span class=\"smaller-span\">" . $args_content[0]->getTheme() . " - </span>" . $args_content[0]->getTitle() ?></h3>
+    </div>
+    <div>
+        <p>Créé le <time datetime="<?= $args_content[0]->getCreation()->format('Y-m-d') ?>"><?= $args_content[0]->getCreation()->format('d M Y') ?></time></p>
+        <?= App\Session::isCurrentClient($args_content[0]->getClient()) ? "<a href=\"" . RELATIVE_DIR . "home/lockThread/" . $args_content[0]->getId() . "\">" . ($args_content[0]->getLocked() ? "Dév" : "V") . "errouiller</a>" : "" ?>
+    </div>
 </div>
 
 <?php foreach ($args_content[1] as $p): ?>
@@ -18,7 +24,7 @@
 
             </div>
             <div class="flex-centered">
-                <?php if(App\Session::isConnected() && $p->getClient()->getNickname() == $_SESSION[App\Session::NICKNAME_SES]) echo "<a href=\"" . RELATIVE_DIR . "home/editPost/" . $p->getId() . "\" class=\"all-tags\">Editer</a>"; ?>
+                <?php if(App\Session::isConnected() && App\Session::isCurrentClient($p->getClient())) echo "<a href=\"" . RELATIVE_DIR . "home/editPost/" . $p->getId() . "\" class=\"all-tags\">Editer</a>"; ?>
                 <div class="post-client">
                     <img src="<?= $p->getClient()->getAvatar() ?>" />
                     <div>
@@ -31,7 +37,7 @@
     </div>
 <?php endforeach; ?>
 
-<?php if (App\Session::isConnected()): ?>
+<?php if (!$args_content[0]->getLocked() && App\Session::isConnected()): ?>
     <div class="container">
         <form method="post">
             <label>Écrire un message : </label>

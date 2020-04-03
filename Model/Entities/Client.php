@@ -24,6 +24,8 @@
      * @method getAvatar() Get the value of avatar.
      * @method setAvatar() Set the value of avatar.
      * 
+     * @method getAvatarEnd() Only get the file name of avatar.
+     * 
      * @method __toString() ToString override : get the nickname.
      */
     final class Client extends Entity{
@@ -152,6 +154,15 @@
         public function setAvatar($avatar)
         {
             $this->avatar = $avatar;
+        }
+        
+        /**
+         * Only get the file name of avatar.
+         */
+        public function getAvatarEnd()
+        {
+            $name = explode(DS, $this->avatar);
+            return end($name);
         }
         
         /**

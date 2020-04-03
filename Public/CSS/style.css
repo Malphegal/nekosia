@@ -92,6 +92,15 @@ textarea{
     flex-direction: column;
 }
 
+.flex-33{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-33 > *{
+    width: 33.3%;
+}
+
 .flex-centered{
     display: flex;
     flex-direction: column;
@@ -158,4 +167,13 @@ a.all-tags:hover{
     height: 80%;
     background: #ccc;
     margin-top: 10%;
+}
+
+.img-64{
+    width: 64px;
+    height: 64px;
+}
+
+.inline-blocked{
+    display: inline-block;
 }
