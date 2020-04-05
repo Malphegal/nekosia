@@ -13,6 +13,8 @@
      * @method showThread() Show posts of one thread.
      * @method editPost() Allow to edit a Post.
      * @method newThread() Allow to create a new Thread.
+     * @method lockThread() Allow to lock/unlock a thread.
+     * @method about() Show the forum details.
      * @method invoke404() Invoke the 404.php page, and die().
      */
     class HomeController{
@@ -215,7 +217,12 @@
                     "css" => CSS_LINK . "Threads" . DS . "newThread.css\" />")
             ];
         }
-
+        
+        /**
+         * Allow to lock/unlock a thread.
+         *
+         * @param int $id The thread id.
+         */
         public function lockThread($id)
         {
             $tMan = new ThreadManager();
@@ -228,7 +235,21 @@
             $tMan->update($thread->getId(), ["locked" => $newValue]);
             header("Location: " . RELATIVE_DIR . "home/showThread/$id");
         }
-        
+                
+        /**
+         * Show the forum details.
+         */
+        public function about()
+        {
+            return [
+                "view" => DEFAULT_TEMPLATE,
+                "data" => array("title" => "À propos",
+                    "content" => "About" . DS . "about.php",
+                    "args" => null,
+                    "css" => "")
+            ];
+        }
+
         /**
          * Invoke the 404.php page, and die().
          */

@@ -17,7 +17,7 @@
             <input id="checkbox-header" type="checkbox" />
             <ul class="container">
                 <li><a href="<?= RELATIVE_DIR ?>client/profil"><?= $isConnected ? "Profil" : "Se connecter" ?></a></li>
-                <?= $isConnected ? "<li><a href=\"" . RELATIVE_DIR . "client/logout\">Se déconnecter</a></li>" : "" ?>
+                <?= $isConnected ? "<li><a href=\"" . RELATIVE_DIR . "client" . DS . "logout\">Se déconnecter</a></li>" : "" ?>
             </ul>
         </div>
     </div>

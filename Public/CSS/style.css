@@ -26,6 +26,11 @@ input:-webkit-autofill:active{
     box-shadow: 0 0 0 30px white inset;
 }
 
+ol li{
+    margin: 1em 0;
+    font-size: 1.2em;
+}
+
 /* -- Form */
 
 form > *{
@@ -85,6 +90,7 @@ textarea{
     margin: 1em 0;
     padding: 1em;
     border: 1px solid #ccc;
+    border-radius: 6px;
 }
 
 .column-flexed{
@@ -184,4 +190,16 @@ textarea{
 
 .inline-blocked{
     display: inline-block;
+}
+
+/* ---- FOOTER ---- */
+
+footer{
+    background-color: white;
+    font-size: 0.8em;
+    margin: 1em 0;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: right;
 }

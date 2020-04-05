@@ -31,6 +31,9 @@
                 <div id="right">
                     <?php ?>
                 </div>
+                <footer>
+                    <a href="<?= RELATIVE_DIR . "Home" . DS . "about" ?>">À propos de Nekosia</a>
+                </footer>
             </div>
         </main>
         <?php ?>
