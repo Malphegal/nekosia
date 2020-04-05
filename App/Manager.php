@@ -91,7 +91,7 @@
         {
             if ($rows == null)
                 return null;
-            $res = [];
+                $res = [];
             foreach($rows as $row)
             {
 				$classNamespace = ENTITY_NS . $class;

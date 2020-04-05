@@ -62,4 +62,24 @@
                 $this->className
             );
         }
+        
+        /**
+         * Get one record based on sha256 hashed id_client field.
+         *
+         * @param int|string $id The requested id, or hashed ID.
+         * @return Client|false An object of a type Client, or 'false' if there is no record.
+         */
+        public function findOneById($id)
+        {
+            if (strlen(strval($id)) < 64)
+                $id = hash("sha256", $id);
+            $sql = "SELECT *
+                    FROM " . $this->tableName . " c
+                    WHERE SHA2(c.id_" . $this->tableName . ", 256) = :id";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id' => $id], false), 
+                $this->className
+            );
+        }
     }

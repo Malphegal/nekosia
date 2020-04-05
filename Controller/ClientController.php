@@ -37,11 +37,11 @@
 
             if (isset($_POST['signin-nickname']) && isset($_POST['signin-pw'])){
                 $cMan = new ClientManager();
-                $client = $cMan->findWithNameAndPw($_POST['signin-nickname'], $_POST['signin-pw']);
+                $client = $cMan->findWithNameAndPw($_POST['signin-nickname'], hash("sha256", $_POST['signin-pw']));
                 
                 if ($client !== false)
                 {
-                    Session::setCookie(Session::ID_COOKIE, $client->getId());
+                    Session::setCookie(Session::ID_COOKIE, hash("sha256", $client->getId()));
                     Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
                 }
 
@@ -87,7 +87,7 @@
          */
         public function logout()
         {
-            Session::destoyClientSession();
+            Session::destroyClientSession();
             header("Location: " . RELATIVE_DIR);
             die();
         }
@@ -111,7 +111,7 @@
                 $exist = $cMan->findWithName($_POST["signup-nickname"]) != null;
                 if ($exist)
                 {
-                    header("Location: " . RELATIVE_DIR . "client/signup");
+                    header("Location: " . RELATIVE_DIR . "client" . DS . "signup");
                     die();
                 }
                 
@@ -142,7 +142,7 @@
 
                 $idNewClient = $cMan->add(["nickname" => $_POST['signup-nickname'],
                     "email" => $_POST['signup-email'],
-                    "pw" => $_POST['signup-pw'],
+                    "pw" => hash("sha256", $_POST['signup-pw']),
                     "signedup" => date("Y-m-d H:i:s"),
                     "avatar" => $avatarPath,
                     "grade_id" => $this->defaultClientGrade]);
@@ -150,7 +150,7 @@
                 // Once the newly account created, connect him
                 Session::createClientWithId($idNewClient);
 
-                header("Location: " . RELATIVE_DIR . "client/profil");
+                header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
                 die();
             }
 

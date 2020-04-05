@@ -2,7 +2,7 @@
     <h2>Tout non respect des consignes pourra donner lieu à un premier avertissement, voire à une exclusion immédiate.</h2>
     <ol>
         <li>N’utilisez jamais plusieurs pseudos, particulièrement dans un but de faire croire à deux utilisateurs différents. La falsification d’identité et la mystification (pseudos multiples) n'est pas toléré, et vous conduira à une exclusion immédiate du forum.</li>
-        <li>Transmettre du contenu offensant, ce qui inclut le recours à du langage illicite, nuisible, menaçant, abusif, harcelant, diffamatoire, vulgaire, obscène, sexuel, raciste, contraire à l’éthique ou répréhensible à tout autre titre, sera passible d'exclusion immédiate.</li>
+        <li>Transmettre du contenu offensant, ce qui inclut le recours à du langage illicite, nuisible, menaçant, abusif, harcelant, diffamatoire, vulgaire, obscène, sexuel, raciste ou contraire à l’éthique, sera passible d'exclusion immédiate.</li>
         <li>Rédigez soigneusement les objets de vos topics. Ils doivent clairement représenter le contenu et la thématique du topic. Veillez éviter les objets non descriptif, comme "À l’aide", "Question", "SVP", "J’ai un problème !!!".</li>
         <li>Utilisez des caractères majuscules seulement pour accentuer une partie importante d'une phrase. LES MAJUSCULES DONNENT L'IMPRESSION QUE VOUS CRIEZ et ne donnent pas envie de répondre.</li>
         <li>Si vous paramétrez une signature, restez simple et concis. Une signature ne doit pas surcharger un message.</li>

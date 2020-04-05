@@ -15,7 +15,7 @@
      * @method isCurrentClient() Check whether or not the connected Client is the same as $client.
      * @method isCurrentAdmin() Check whether or not the connected Client is an admin.
      * @method createClientWithId() Creates the logged in client in session, based on id.
-     * @method destoyClientSession() Unset the whole user session, and his cookies.
+     * @method destroyClientSession() Unset the whole user session, and his cookies.
      */
     abstract class Session{
 
@@ -126,7 +126,7 @@
         /**
          * Creates the logged in client in session, based on id.
          *
-         * @param int $id Client id.
+         * @param int $id Hashed Client id.
          * @param int $rememberMe=null Int value that represents a bool, will the client stay connected after closing the browser ?
          */
         public static function createClientWithId($id, $rememberMe = null)
@@ -141,7 +141,7 @@
             if ($client !== false)
                 self::createClientWithObject($client, $rememberMe);
             else
-                self::destoyClientSession(true);
+                self::destroyClientSession(true);
         }
         
         /**
@@ -156,7 +156,7 @@
             {
                 if ($rememberMe != null)
                     self::setCookie(self::REMEMBER_COOKIE, $rememberMe);
-                $_SESSION[self::ID_SES] = $client->getId();
+                $_SESSION[self::ID_SES] = hash("sha256", $client->getId());
                 $_SESSION[self::NICKNAME_SES] = $client->getNickname();
                 $_SESSION[self::EMAIL_SES] = $client->getEmail();
                 $_SESSION[self::SIGNEDUP_SES] = $client->getSignedup();
@@ -164,13 +164,13 @@
                 $_SESSION[self::GRADE_SES] = $client->getGrade();
             }
             else
-                self::destoyClientSession(true);
+                self::destroyClientSession(true);
         }
         
         /**
          * Unset the whole user session, and his cookies.
          */
-        public static function destoyClientSession($destroyCookies = false)
+        public static function destroyClientSession($destroyCookies = false)
         {
             if ($destroyCookies)
             {
