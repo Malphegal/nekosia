@@ -45,7 +45,7 @@
                     Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
                 }
 
-                $headerLocation = "client/profil" . ($profilName == null ? "" : "/" . $profilName);
+                $headerLocation = "client" . DS . "profil" . ($profilName == null ? "" : "/" . $profilName);
                 header("Location: " . RELATIVE_DIR . $headerLocation);
                 die();
             }
@@ -130,7 +130,7 @@
                     // If the image is NOT valid or does exist already, abort
                     if (file_exists($avatarPath) || !move_uploaded_file($_FILES["signup-avatar"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . $avatarPath))
                     {
-                        header("Location: " . RELATIVE_DIR . "client/signup");
+                        header("Location: " . RELATIVE_DIR . "client" . DS . "signup");
                         die();
                     }
                     

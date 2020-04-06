@@ -9,5 +9,5 @@
         </div>
         <input type="submit" value="Se connecter" id="submit" class="fancy-submit" />
     </form>
-    <a href="<?= RELATIVE_DIR ?>client/signup">Pas de compte ? Viens nous rejoindre ici !</a>
+    <a href="<?= RELATIVE_DIR . "client" . DS . "signup" ?>">Pas de compte ? Viens nous rejoindre ici !</a>
 </div>

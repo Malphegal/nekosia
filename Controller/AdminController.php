@@ -19,7 +19,7 @@
         public function manageClients()
         {
             // Only for admins
-            if (!Session::isConnected() || $_SESSION[Session::GRADE_SES] != "Admin")
+            if (!Session::isCurrentAdmin())
                 HomeController::invoke404();
 
             $cMan = new ClientManager();

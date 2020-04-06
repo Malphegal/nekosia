@@ -89,7 +89,7 @@
                     "lattest_edit" => date("Y-m-d H:i:s"),
                     "thread_id" => $id,
                     "client_id" => $_SESSION[Session::ID_SES]]);
-                header("location: " . RELATIVE_DIR . "home/showThread/$id");
+                header("location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $id);
                 die();
             }
             
@@ -147,9 +147,9 @@
                     self::invoke404();
 
                 // Update in the database
-                if ($pMan->update($post->getId(), ["body" => str_replace("'", "''", $body)]))
+                if ($pMan->update($post->getId(), ["body" => str_replace("'", "''", $body), "lattest_edit" => date("Y-m-d H:i:s")]))
                 {
-                    header("Location: " . RELATIVE_DIR . "home/showThread/" . $thread->getId());
+                    header("Location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $thread->getId());
                     die() ;
                 }
                 else
@@ -194,7 +194,7 @@
                     "thread_id" => $threadId,
                     "client_id" => $_SESSION[Session::ID_SES]]);
 
-                header("Location: " . RELATIVE_DIR . "home/showThread/$threadId");
+                header("Location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $threadId);
                 die();
             }
 
@@ -233,7 +233,7 @@
 
             $newValue = $thread->getLocked() ? 0 : 1;
             $tMan->update($thread->getId(), ["locked" => $newValue]);
-            header("Location: " . RELATIVE_DIR . "home/showThread/$id");
+            header("Location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $id);
         }
                 
         /**

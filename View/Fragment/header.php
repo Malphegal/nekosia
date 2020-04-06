@@ -4,7 +4,9 @@
         </div>
     <div id="subheader">
         <div class="flex-centered">
-            
+            <?php if (App\Session::isCurrentAdmin()): ?>
+                <a href="<?= RELATIVE_DIR . "admin" . DS . "manageClients"?>">Gérer les clients</a>
+            <?php endif; ?>
         </div>
         <div class="flex-centered">
             <h1><a href="<?= RELATIVE_DIR ?>">Nekosia</a></h1>
@@ -16,7 +18,7 @@
             </label>
             <input id="checkbox-header" type="checkbox" />
             <ul class="container">
-                <li><a href="<?= RELATIVE_DIR ?>client/profil"><?= $isConnected ? "Profil" : "Se connecter" ?></a></li>
+                <li><a href="<?= RELATIVE_DIR . "client" . DS . "profil" ?>"><?= $isConnected ? "Profil" : "Se connecter" ?></a></li>
                 <?= $isConnected ? "<li><a href=\"" . RELATIVE_DIR . "client" . DS . "logout\">Se déconnecter</a></li>" : "" ?>
             </ul>
         </div>

@@ -156,7 +156,7 @@
             {
                 if ($rememberMe != null)
                     self::setCookie(self::REMEMBER_COOKIE, $rememberMe);
-                $_SESSION[self::ID_SES] = hash("sha256", $client->getId());
+                $_SESSION[self::ID_SES] = $client->getId();
                 $_SESSION[self::NICKNAME_SES] = $client->getNickname();
                 $_SESSION[self::EMAIL_SES] = $client->getEmail();
                 $_SESSION[self::SIGNEDUP_SES] = $client->getSignedup();

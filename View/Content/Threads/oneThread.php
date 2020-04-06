@@ -9,7 +9,7 @@
     </div>
     <div>
         <p>Créé le <time datetime="<?= $args_content[0]->getCreation()->format('Y-m-d') ?>"><?= $args_content[0]->getCreation()->format('d M Y') ?></time></p>
-        <?= App\Session::isCurrentClient($args_content[0]->getClient()) ? "<a href=\"" . RELATIVE_DIR . "home/lockThread/" . $args_content[0]->getId() . "\">" . ($args_content[0]->getLocked() ? "Dév" : "V") . "errouiller</a>" : "" ?>
+        <?= App\Session::isCurrentClient($args_content[0]->getClient()) ? "<a href=\"" . RELATIVE_DIR . "home" . DS . "lockThread" . DS . $args_content[0]->getId() . "\">" . ($args_content[0]->getLocked() ? "Dév" : "V") . "errouiller</a>" : "" ?>
     </div>
 </div>
 

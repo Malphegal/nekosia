@@ -2,7 +2,7 @@
     <div id="new-topic">
         <?php if (App\Session::isConnected()): ?>
             <label>Envie de discuter ? Créé un nouveau topic !</label>
-            <a href="<?= RELATIVE_DIR ?>home/newThread">Go</a>
+            <a href="<?= RELATIVE_DIR . "home" . DS . "newThread" ?>">Go</a>
         <?php endif; ?>
     </div>
     <div>
@@ -19,7 +19,7 @@
             <p><?= $value[0]->getClient() ?></p>
         </div>
         <div class="thread-title-container">
-            <h3 class="title-border"><a href="<?= RELATIVE_DIR ?>home/showThread/<?= $value[0]->getId() ?>"><?= "<span class=\"smaller-span\">" . $value[0]->getTheme() . " - </span>" . $value[0]->getTitle() ?></a></h3>
+            <h3 class="title-border"><a href="<?= RELATIVE_DIR . "home" . DS . "showThread" . DS . $value[0]->getId() ?>"><?= "<span class=\"smaller-span\">" . $value[0]->getTheme() . " - </span>" . $value[0]->getTitle() ?></a></h3>
             <p><?= App\Utils::newline_to_newp($value[1]->getBody()) ?></p>
         </div>
         <div class="thread-view-container border-left-80">

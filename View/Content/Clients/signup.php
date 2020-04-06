@@ -1,5 +1,5 @@
 <div class="container">
-    <form method="post" class="flex-centered" enctype="multipart/form-data" action="<?= RELATIVE_DIR ?>client/signup">
+    <form method="post" class="flex-centered" enctype="multipart/form-data" action="<?= RELATIVE_DIR . "client" . DS . "signup" ?>">
         <h3>Viens nous rejoindre !</h3>
         <div class="logo-input">
             <div class="i-container flex-centered">
