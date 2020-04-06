@@ -28,13 +28,13 @@
                     if (App\Session::isConnected() && App\Session::isCurrentClient($p->getClient()))
                         echo "<a href=\"" . RELATIVE_DIR . "home" . DS . "editPost" . DS . $p->getId() . "\" class=\"all-tags\">Editer</a>";
                     else if (App\Session::isCurrentAdmin())
-                        echo "<a href=\"" . RELATIVE_DIR . "home" . DS . "editPost" . DS . $p->getId() . "\" class=\"admin-tags\">Editer [Admin]</a>";
+                        echo "<a href=\"" . RELATIVE_DIR . "home" . DS . "editPost" . DS . $p->getId() . "\" class=\"admin-tags\">Editer</a>";
                 ?>
                 <div class="post-client">
-                    <img src="<?= $p->getClient()->getAvatar() ?>" />
+                <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($p->getClient()) ?>"><img src="<?= $p->getClient()->getAvatar() ?>" /></a>
                     <div>
                         <p><time datetime="<?= $p->getCreation()->format('Y-m-d') ?>"><?= $p->getCreation()->format('d M Y à H:i:s') ?></time></p>
-                        <p><?= $p->getClient() ?></p>
+                        <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($p->getClient()) ?>"><?= $p->getClient() ?></a>
                     </div>
                 </div>
             </div>

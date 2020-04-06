@@ -15,8 +15,7 @@
             <?= $value[0]->getLocked() ? "<img src=\"" . IMG_DIR . "Thread" . DS . "threadLock.png\" />" : "" ?>
         </div>
         <div class="thread-img-container flex-centered border-right-80">
-            <img src="<?= $value[0]->getClient()->getAvatar() ?>" />
-            <p><?= $value[0]->getClient() ?></p>
+            <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($value[0]->getClient()) ?>"><img src="<?= $value[0]->getClient()->getAvatar() ?>" /><?= $value[0]->getClient() ?></a>
         </div>
         <div class="thread-title-container">
             <h3 class="title-border"><a href="<?= RELATIVE_DIR . "home" . DS . "showThread" . DS . $value[0]->getId() ?>"><?= "<span class=\"smaller-span\">" . $value[0]->getTheme() . " - </span>" . $value[0]->getTitle() ?></a></h3>

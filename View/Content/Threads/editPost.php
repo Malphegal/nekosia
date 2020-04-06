@@ -4,7 +4,7 @@
 <div class="container post-content">
     <form method="post">
         <textarea name="editpost-body"><?= $args_content[1]->getBody(); ?></textarea>
-        <?= App\Session::isCurrentAdmin() && !App\Session::isCurrentClient($args_content[1]->getClient()) ? "<p class=\"admin-tags\">[Admin] Attention, ce n'est pas votre post !</p>" : "" ?>
+        <?= App\Session::isCurrentAdmin() && !App\Session::isCurrentClient($args_content[1]->getClient()) ? "<p class=\"admin-tags\">Attention, ce n'est pas votre post !</p>" : "" ?>
         <input type="submit" value="Modifier" />
     </form>
     <hr />

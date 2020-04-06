@@ -82,4 +82,15 @@
                 $this->className
             );
         }
+        
+        /**
+         * Ban a Client.
+         *
+         * @param Client $client A Client object.
+         */
+        public function ban($client)
+        {
+            return $this->update($client->getId(),
+                ["is_banned" => 1]);
+        }
     }

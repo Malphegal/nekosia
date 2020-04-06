@@ -5,7 +5,7 @@
     <div id="subheader">
         <div class="flex-centered">
             <?php if (App\Session::isCurrentAdmin()): ?>
-                <a href="<?= RELATIVE_DIR . "admin" . DS . "manageClients"?>">Gérer les clients</a>
+                <a href="<?= RELATIVE_DIR . "admin" . DS . "manageClients"?>" class="admin-tags">Gérer les clients</a>
             <?php endif; ?>
         </div>
         <div class="flex-centered">

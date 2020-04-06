@@ -33,7 +33,7 @@
         {
             $title = "Connexion";
             $page = "login.php";
-            $res = null;
+            $client = null;
 
             if (isset($_POST['signin-nickname']) && isset($_POST['signin-pw'])){
                 $cMan = new ClientManager();
@@ -41,8 +41,13 @@
                 
                 if ($client !== false)
                 {
-                    Session::setCookie(Session::ID_COOKIE, hash("sha256", $client->getId()));
-                    Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
+                    if (!$client->getIsBanned())
+                    {
+                        Session::setCookie(Session::ID_COOKIE, hash("sha256", $client->getId()));
+                        Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
+                    }
+                    else
+                        HomeController::invoke404();
                 }
 
                 $headerLocation = "client" . DS . "profil" . ($profilName == null ? "" : "/" . $profilName);
@@ -65,19 +70,14 @@
     
                 // Otherwise get its information
                 $page = "userProfil.php";
-                $title = $profilName;
-    
-                $res = [$client->getAvatar(),
-                    $profilName,
-                    $client->getEmail(),
-                    $client->getSignedup()];
+                $title = ucfirst($profilName);
             }
 
             return [
                 "view" => DEFAULT_TEMPLATE,
                 "data" => array("title" => $title,
                     "content" => "Clients" . DS . $page,
-                    "args" => $res,
+                    "args" => $client,
                     "css" => CSS_LINK . "Clients" . DS . "profil.css\" />")
             ];
         }

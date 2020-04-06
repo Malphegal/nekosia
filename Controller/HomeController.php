@@ -21,10 +21,6 @@
         
         // ---- METHODS ----
 
-        // -- AJAX
-                
-        // -- FULL VIEW
-
         /**
          * Invoke the index page.
          */

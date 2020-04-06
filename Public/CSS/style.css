@@ -98,15 +98,6 @@ textarea{
     flex-direction: column;
 }
 
-.flex-33{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.flex-33 > *{
-    width: 33.3%;
-}
-
 .flex-centered{
     display: flex;
     flex-direction: column;
@@ -125,20 +116,24 @@ textarea{
     height: 64px;
 }
 
-#content .all-tags{
+a.all-tags{
     color: #999
 }
 
-#content .all-tags:hover{
+a.all-tags:hover{
     color: #bbb
 }
 
-#content .admin-tags{
+a.admin-tags{
     color: #911;
 }
 
-#content .admin-tags:hover{
+a.admin-tags:hover{
     color: #b22
+}
+
+a.admin-tags::after{
+    content: " [Admin]";
 }
 
 .smaller-span{

@@ -18,13 +18,16 @@
      * @method getSignedup() Get the value of signedup.
      * @method setSignedup() Set the value of signedup.
      * 
-     * @method getGrade() Get the value of grade.
-     * @method setGrade() Set the value of grade.
-     * 
      * @method getAvatar() Get the value of avatar.
      * @method setAvatar() Set the value of avatar.
      * 
      * @method getAvatarEnd() Only get the file name of avatar.
+     * 
+     * @method getIsBanned() Get the value of isBanned.
+     * @method setIsBanned() Set the value of isBanned.
+     * 
+     * @method getGrade() Get the value of grade.
+     * @method setGrade() Set the value of grade.
      * 
      * @method __toString() ToString override : get the nickname.
      */
@@ -37,6 +40,7 @@
         private $email;
         private $signedup;
         private $avatar;
+        private $isBanned;
         private $grade;
 
         // ---- CONSTRUCTORS ----
@@ -119,24 +123,6 @@
         {
             $this->signedup = new \DateTime($signedup);
         }
-
-        /**
-         * Get the value of grade.
-         */ 
-        public function getGrade()
-        {
-            return $this->grade;
-        }
-
-        /**
-         * Set the value of grade.
-         * 
-         * @param Grade $grade The new grade value.
-         */ 
-        public function setGrade($grade)
-        {
-            $this->grade = $grade;
-        }
         
         /**
          * Get the value of avatar.
@@ -163,6 +149,42 @@
         {
             $name = explode(DS, $this->avatar);
             return end($name);
+        }
+
+        /**
+         * Get the value of isBanned.
+         */ 
+        public function getIsBanned()
+        {
+            return $this->isBanned;
+        }
+
+        /**
+         * Set the value of isBanned.
+         * 
+         * @param int $isBanned The new isBanned value.
+         */ 
+        public function setIsBanned($isBanned)
+        {
+            $this->isBanned = $isBanned;
+        }
+
+        /**
+         * Get the value of grade.
+         */ 
+        public function getGrade()
+        {
+            return $this->grade;
+        }
+
+        /**
+         * Set the value of grade.
+         * 
+         * @param Grade $grade The new grade value.
+         */ 
+        public function setGrade($grade)
+        {
+            $this->grade = $grade;
         }
         
         /**

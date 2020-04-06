@@ -44,9 +44,21 @@
         {
             self::$cookiesLength = strtotime('+1 year');
             session_start();
-            if (isset($_COOKIE[self::REMEMBER_COOKIE]) && isset($_COOKIE[self::ID_COOKIE])){
+            if (isset($_COOKIE[self::REMEMBER_COOKIE]) && isset($_COOKIE[self::ID_COOKIE]))
+            {
                 if (!self::isConnected() && $_COOKIE[self::REMEMBER_COOKIE] == true)
                     self::createClientWithId($_COOKIE[self::ID_COOKIE], $_COOKIE[self::REMEMBER_COOKIE]);
+            }
+            // Check if the user has been banned since the last refresh
+            if (self::isConnected())
+            {
+                $cMan = new ClientManager();
+                $client = $cMan->findOneById($_SESSION[self::ID_SES]);
+                if ($client->getIsBanned())
+                {
+                    self::destroyClientSession(true);
+                    \Controller\HomeController::invoke404();
+                }
             }
         }
         
@@ -110,7 +122,7 @@
          */
         public static function isCurrentClient($client)
         {
-            return $client == $_SESSION[self::NICKNAME_SES];
+            return self::isConnected() && $client == $_SESSION[self::NICKNAME_SES];
         }
         
         /**
