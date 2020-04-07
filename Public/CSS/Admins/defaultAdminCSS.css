@@ -7,11 +7,5 @@
 }
 
 #content img{
-    width: 64px;
-    height: 64px;
     margin-right: 1em;
-}
-
-#content .flexed > *{
-    width: 33%;
 }

@@ -12,9 +12,6 @@ body{
 
 a{
     text-decoration: none;
-}
-
-a:visited, a:link{
     color: inherit;
 }
 
@@ -134,6 +131,14 @@ a.admin-tags:hover{
 
 a.admin-tags::after{
     content: " [Admin]";
+}
+
+*.banned{
+    color: #b22
+}
+
+*.banned::after{
+    content: " [Banni]";
 }
 
 .smaller-span{

@@ -23,8 +23,6 @@ header h1{
 }
 
 header #useravatar{
-    width: 64px;
-    height: 64px;
     margin: 0.2em 0;
 }
 
@@ -35,6 +33,13 @@ header #subheader{
 header #header-client-profil{
     position: relative;
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+header #header-client-profil > p{
+    margin-right: 0.5em;
 }
 
 header #header-client-profil > label{
