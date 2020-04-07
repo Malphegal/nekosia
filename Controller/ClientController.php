@@ -155,7 +155,7 @@
 
                 // Once the newly account created, connect him
                 Session::createClientWithId($idNewClient);
-die('a');
+
                 header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
                 die();
             }
