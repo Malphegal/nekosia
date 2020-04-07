@@ -68,7 +68,7 @@
          */ 
         public function getBody()
         {
-            return $this->body;
+            return htmlspecialchars($this->body);
         }
 
         /**
