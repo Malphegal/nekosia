@@ -3,6 +3,7 @@
     namespace App;
 
     use Model\Managers\ClientManager;
+    use Controller\HomeController;
 
     /**
      * Manager the user session, and cookies.
@@ -57,7 +58,7 @@
                 if ($client->getIsBanned())
                 {
                     self::destroyClientSession(true);
-                    \Controller\HomeController::invoke404();
+                    HomeController::invoke404();
                 }
             }
         }

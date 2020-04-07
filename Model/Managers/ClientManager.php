@@ -62,6 +62,25 @@
                 $this->className
             );
         }
+
+        /**
+         * Find a client based on his nickname or email. Required for sign-up.
+         *
+         * @param string $nickname The user nickname.
+         * @param string $email The user email.
+         */
+        public function findWithNameOrEmail($nickname, $email)
+        {
+            $sql = "SELECT *
+                    FROM " . $this->tableName . "
+                    WHERE nickname = :nickname
+                    OR email = :email";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ["nickname" => $nickname, "email" => $email], false),
+                $this->className
+            );
+        }
         
         /**
          * Get one record based on sha256 hashed id_client field.

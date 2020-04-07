@@ -31,10 +31,10 @@
                         echo "<a href=\"" . RELATIVE_DIR . "home" . DS . "editPost" . DS . $p->getId() . "\" class=\"admin-tags\">Editer</a>";
                 ?>
                 <div class="post-client">
-                <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($p->getClient()) ?>"><img src="<?= $p->getClient()->getAvatar() ?>" /></a>
+                <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($p->getClient()) ?>"><img src="<?= $p->getClient()->getAvatar() ?>" class="avatar" /></a>
                     <div>
                         <p><time datetime="<?= $p->getCreation()->format('Y-m-d') ?>"><?= $p->getCreation()->format('d M Y à H:i:s') ?></time></p>
-                        <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($p->getClient()) ?>"><?= $p->getClient() ?></a>
+                        <a href="<?= RELATIVE_DIR . "client" . DS . "profil" . DS . strtolower($p->getClient()) ?>" <?= $p->getClient()->getIsBanned() ? "class=\"banned\"" : "" ?>><?= $p->getClient() ?></a>
                     </div>
                 </div>
             </div>

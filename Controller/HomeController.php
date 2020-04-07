@@ -210,7 +210,7 @@
                 "data" => array("title" => "Une envie de discuter !",
                     "content" => "Threads" . DS . "newThread.php",
                     "args" => $args,
-                    "css" => CSS_LINK . "Threads" . DS . "newThread.css\" />")
+                    "css" => "")
             ];
         }
         

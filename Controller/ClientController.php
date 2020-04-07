@@ -103,12 +103,17 @@
                 die();
             }
 
-            if (isset($_POST["signup-nickname"]) && isset($_POST["signup-pw"]) && isset($_POST["signup-email"]) && isset($_FILES["signup-avatar"]))
+            //filter_input(INPUT_POST, "signup-nickname", FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if (isset($_POST["signup-nickname"]) && !empty($_POST["signup-nickname"])
+                && isset($_POST["signup-pw"]) && !empty($_POST["signup-pw"])
+                && isset($_POST["signup-email"]) && !empty($_POST["signup-email"])
+                && isset($_FILES["signup-avatar"]) && !empty($_FILES["signup-avatar"]))
             {
                 // -- Check if the Client already exists
 
                 $cMan = new ClientManager();
-                $exist = $cMan->findWithName($_POST["signup-nickname"]) != null;
+                $exist = $cMan->findWithNameOrEmail($_POST["signup-nickname"], $_POST["signup-email"]) != null;
                 if ($exist)
                 {
                     header("Location: " . RELATIVE_DIR . "client" . DS . "signup");
@@ -145,11 +150,12 @@
                     "pw" => hash("sha256", $_POST['signup-pw']),
                     "signedup" => date("Y-m-d H:i:s"),
                     "avatar" => $avatarPath,
+                    "is_banned" => 0,
                     "grade_id" => $this->defaultClientGrade]);
 
                 // Once the newly account created, connect him
                 Session::createClientWithId($idNewClient);
-
+die('a');
                 header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
                 die();
             }

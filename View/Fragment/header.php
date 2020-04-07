@@ -12,8 +12,11 @@
             <h1><a href="<?= RELATIVE_DIR ?>">Nekosia</a></h1>
         </div>
         <div id="header-client-profil">
+            <?php if ($isConnected): ?>
+                <p><?= $_SESSION[App\Session::NICKNAME_SES] ?></p>
+            <?php endif; ?>
             <label for="checkbox-header">
-                <img id="useravatar" src="<?= $isConnected ? $_SESSION[App\Session::AVATAR_SES] : AVATAR_DIR . "default_avatar.png" ?>"/>
+                <img id="useravatar" src="<?= $isConnected ? $_SESSION[App\Session::AVATAR_SES] : AVATAR_DIR . "default_avatar.png" ?>" class="avatar" />
                 <i class="fas fa-chevron-down" id="ii"></i>
             </label>
             <input id="checkbox-header" type="checkbox" />
