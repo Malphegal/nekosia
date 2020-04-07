@@ -14,7 +14,7 @@
         </div>
         <div class="flex-centered">
             <div class="post-client">
-                <img src="<?= $args_content[1]->getClient()->getAvatar() ?>" />
+                <img src="<?= $args_content[1]->getClient()->getAvatar() ?>" class="avatar" />
                 <div>
                     <p><time datetime="<?= $args_content[1]->getCreation()->format('Y-m-d') ?>"><?= $args_content[1]->getCreation()->format('d M Y à H:i:s') ?></time></p>
                     <p><?= $args_content[1]->getClient() ?></p>

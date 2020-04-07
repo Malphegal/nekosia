@@ -147,7 +147,7 @@
 
                 $idNewClient = $cMan->add(["nickname" => $_POST['signup-nickname'],
                     "email" => $_POST['signup-email'],
-                    "pw" => hash("sha256", $_POST['signup-pw']),
+                    "pw" => hash("sha256", $_POST['signup-pw']), // password_hash($_POST['signup-pw'], PASSWORD_ARGON2I)
                     "signedup" => date("Y-m-d H:i:s"),
                     "avatar" => $avatarPath,
                     "is_banned" => 0,

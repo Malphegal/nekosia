@@ -146,7 +146,7 @@
                 if ($pMan->update($post->getId(), ["body" => str_replace("'", "''", $body), "lattest_edit" => date("Y-m-d H:i:s")]))
                 {
                     header("Location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $thread->getId());
-                    die() ;
+                    die();
                 }
                 else
                     self::invoke404();
@@ -173,6 +173,11 @@
                 && isset($_POST["newthread-title"]) && !empty($_POST["newthread-title"])
                 && isset($_POST["newthread-post"]) && !empty($_POST["newthread-post"]))
             {
+                $themeMan = new ThemeManager();
+                $exist = $themeMan->findOneById($_POST["newthread-theme"]);
+                if (!$exist)
+                    self::invoke404();
+
                 // Add Thread
                 $tMan = new ThreadManager();
                 $threadId = $tMan->add(["title" => str_replace("'", "''", $_POST["newthread-title"]),
@@ -181,7 +186,7 @@
                     "lattest_edit" => date("Y-m-d H:i:s"),
                     "theme_id" => $_POST["newthread-theme"],
                     "client_id" => $_SESSION[Session::ID_SES]]);
-
+                
                 // Add Post to the Thread
                 $pMan = new PostManager();
                 $pMan->add(["body" => str_replace("'", "''", $_POST["newthread-post"]),
@@ -189,7 +194,7 @@
                     "lattest_edit" => date("Y-m-d H:i:s"),
                     "thread_id" => $threadId,
                     "client_id" => $_SESSION[Session::ID_SES]]);
-
+                
                 header("Location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $threadId);
                 die();
             }
