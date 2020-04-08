@@ -39,17 +39,19 @@
             if (isset($_POST["signin-nickname"]) && isset($_POST["signin-pw"]))
             {
                 $cMan = new ClientManager();
-                $client = $cMan->findWithNameAndPw($_POST["signin-nickname"], hash("sha256", $_POST["signin-pw"]));
+                $client = $cMan->findWithName($_POST["signin-nickname"]);
                 
                 if ($client !== false)
                 {
-                    if (!$client->getIsBanned())
-                    {
-                        Session::setCookie(Session::ID_COOKIE, hash("sha256", $client->getId()));
-                        Session::createClientWithObject($client, isset($_POST["signin-remember"]) ? 1 : 0);
-                    }
-                    else
+                    if ($client->getIsBanned())
                         HomeController::invoke404();
+                    if (password_verify($_POST["signin-pw"], $cMan->getPw($client->getId())))
+                    {
+                        Session::setCookie(Session::ID_COOKIE, password_hash($client->getId(), PASSWORD_ARGON2I));
+                        if (isset($_POST["signin-remember"]) && $_POST["signin-remember"])
+                            Session::setCookie(Session::REMEMBER_COOKIE, 1);
+                        Session::createClientWithObject($client);
+                    }
                 }
 
                 $headerLocation = "client" . DS . "profil" . ($profilName == null ? "" : "/" . $profilName);
@@ -199,14 +201,16 @@
 
                 $idNewClient = $cMan->add(["nickname" => $_POST['signup-nickname'],
                     "email" => $_POST['signup-email'],
-                    "pw" => hash("sha256", $_POST['signup-pw']), // password_hash($_POST['signup-pw'], PASSWORD_ARGON2I)
+                    "pw" => password_hash($_POST["signup-pw"], PASSWORD_ARGON2I),
                     "signedup" => date("Y-m-d H:i:s"),
                     "avatar" => $avatarPath,
                     "is_banned" => 0,
                     "grade_id" => $this->defaultClientGrade]);
 
                 // Once the newly account created, connect him
-                Session::createClientWithId($idNewClient);
+                $newClient = $cMan->findOneById($idNewClient);
+                Session::setCookie(Session::ID_COOKIE, password_hash($newClient->getId(), PASSWORD_ARGON2I));
+                Session::createClientWithObject($newClient, true);
 
                 header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
                 die();

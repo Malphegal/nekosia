@@ -9,7 +9,10 @@
      * 
      * @method findAll() Get all records of the database table Client.
      * @method findWithName() Find a client named '$nickname'.
-     * @method findWithNameAndPw() Find a client based on his nickname and password. Required for log-in.
+     * @method findWithNameAndEmail() Find a client based on his nickname or email. Required for sign-up.
+     * @method findByHashedId() Get one record based on the hashed cookie id_client field.
+     * @method getPw() Get one hashed password.
+     * @method ban() Ban a Client.
      */
     class ClientManager extends Manager{
 
@@ -45,25 +48,6 @@
         }
 
         /**
-         * Find a client based on his nickname and password. Required for log-in.
-         *
-         * @param string $nickname The user nickname.
-         * @param string $pw The user password.
-         */
-        public function findWithNameAndPw($nickname, $pw)
-        {
-            $sql = "SELECT *
-                    FROM " . $this->tableName . "
-                    WHERE nickname = :nickname
-                    AND pw = :pw";
-
-            return $this->getOneOrNullResult(
-                DAO::select($sql, ["nickname" => $nickname, "pw" => $pw], false),
-                $this->className
-            );
-        }
-
-        /**
          * Find a client based on his nickname or email. Required for sign-up.
          *
          * @param string $nickname The user nickname.
@@ -83,23 +67,38 @@
         }
         
         /**
-         * Get one record based on sha256 hashed id_client field.
+         * Get one record based on the hashed cookie id_client field.
          *
-         * @param int|string $id The requested id, or hashed ID.
+         * @param string $id The requested hashed ID.
          * @return Client|false An object of a type Client, or 'false' if there is no record.
          */
-        public function findOneById($id)
+        public function findByHashedId($hashedId)
         {
-            if (strlen(strval($id)) < 64)
-                $id = hash("sha256", $id);
-            $sql = "SELECT *
+            $sql = "SELECT c.id_" . $this->tableName . "
+                    FROM " . $this->tableName . " c";
+            
+            $rows = DAO::select($sql);
+            foreach ($rows as $r)
+                if (password_verify($r["id_client"], $hashedId))
+                    return $this->findOneById($r["id_client"]);
+            return false;
+        }
+        
+        /**
+         * Get one hashed password.
+         *
+         * @param int $id The Client id.
+         * @return string|null Return the hashed password, or null if the Client does not exist.
+         */
+        public function getPw($id)
+        {
+            $sql = "SELECT pw
                     FROM " . $this->tableName . " c
-                    WHERE SHA2(c.id_" . $this->tableName . ", 256) = :id";
-
-            return $this->getOneOrNullResult(
-                DAO::select($sql, ['id' => $id], false), 
-                $this->className
-            );
+                    WHERE c.id_" . $this->tableName . " = :id";
+            $res = DAO::select($sql, ["id" => $id], false);
+            if (!$res)
+                return null;
+            return current($res);
         }
         
         /**

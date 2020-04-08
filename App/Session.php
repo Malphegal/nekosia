@@ -8,15 +8,16 @@
     /**
      * Manager the user session, and cookies.
      * 
-     * @method init() The session init.
+     * @method init() The session init. Creates the client if there is cookies.
      * @method setCookie() Create a cookie remaining 1 year.
      * @method destroyCookie() Destroy a cookie.
      * @method destroySessionVariable() Destroy a session variable.
      * @method isConnected() Check if the user is connected.
      * @method isCurrentClient() Check whether or not the connected Client is the same as $client.
      * @method isCurrentAdmin() Check whether or not the connected Client is an admin.
-     * @method createClientWithId() Creates the logged in client in session, based on id.
-     * @method destroyClientSession() Unset the whole user session, and his cookies.
+     * @method createClientWithCookie() Creates the logged in client in session, based on the cookie.
+     * @method createClientWithObject() Creates the logged in client in session, based on its object representation.
+     * @method destroyClientSession() Unset the whole user session.
      */
     abstract class Session{
 
@@ -48,7 +49,7 @@
             if (isset($_COOKIE[self::REMEMBER_COOKIE]) && isset($_COOKIE[self::ID_COOKIE]))
             {
                 if (!self::isConnected() && $_COOKIE[self::REMEMBER_COOKIE] == true)
-                    self::createClientWithId($_COOKIE[self::ID_COOKIE], $_COOKIE[self::REMEMBER_COOKIE]);
+                    self::createClientWithCookie();
             }
             // Check if the user has been banned since the last refresh
             if (self::isConnected())
@@ -137,51 +138,44 @@
         }
 
         /**
-         * Creates the logged in client in session, based on id.
-         *
-         * @param int $id Hashed Client id.
-         * @param int $rememberMe=null Int value that represents a bool, will the client stay connected after closing the browser ?
+         * Creates the logged in client in session, based on the cookie.
          */
-        public static function createClientWithId($id, $rememberMe = null)
+        public static function createClientWithCookie()
         {
-            // Reset the cookies timer
-            self::setCookie(self::ID_COOKIE, $id);
-            if (isset($_COOKIE[self::REMEMBER_COOKIE]) && $_COOKIE[self::ID_COOKIE] == 1)
-                self::setCookie(self::REMEMBER_COOKIE, 1);
+            $id = $_COOKIE[self::ID_COOKIE];
 
             $cMan = new ClientManager();
-            $client = $cMan->findOneById($id);
-            if ($client !== false)
-                self::createClientWithObject($client, $rememberMe);
-            else
+            $client = $cMan->findByHashedId($id);
+            if ($client == false)
+            {
                 self::destroyClientSession(true);
+                HomeController::invoke404();
+            }
+
+            // Reset the cookies timer
+            self::setCookie(self::ID_COOKIE, $id);
+            self::setCookie(self::REMEMBER_COOKIE, 1); // It had to be 1, otherwise the method wouldn't have been called
+
+            self::createClientWithObject($client);
         }
         
         /**
-         * Creates the logged in client in session, based on its object.
+         * Creates the logged in client in session, based on its object representation.
          *
          * @param Client $client Full client object.
-         * @param int $rememberMe=null Int value that represents a bool, will the client stay connected after closing the browser ?
          */
-        public static function createClientWithObject($client, $rememberMe = null)
+        public static function createClientWithObject($client)
         {
-            if ($client !== false)
-            {
-                if ($rememberMe != null)
-                    self::setCookie(self::REMEMBER_COOKIE, $rememberMe);
-                $_SESSION[self::ID_SES] = $client->getId();
-                $_SESSION[self::NICKNAME_SES] = $client->getNickname();
-                $_SESSION[self::EMAIL_SES] = $client->getEmail();
-                $_SESSION[self::SIGNEDUP_SES] = $client->getSignedup();
-                $_SESSION[self::AVATAR_SES] = $client->getAvatar();
-                $_SESSION[self::GRADE_SES] = $client->getGrade();
-            }
-            else
-                self::destroyClientSession(true);
+            $_SESSION[self::ID_SES] = $client->getId();
+            $_SESSION[self::NICKNAME_SES] = $client->getNickname();
+            $_SESSION[self::EMAIL_SES] = $client->getEmail();
+            $_SESSION[self::SIGNEDUP_SES] = $client->getSignedup();
+            $_SESSION[self::AVATAR_SES] = $client->getAvatar();
+            $_SESSION[self::GRADE_SES] = $client->getGrade();
         }
         
         /**
-         * Unset the whole user session, and his cookies.
+         * Unset the whole user session.
          */
         public static function destroyClientSession($destroyCookies = false)
         {
