@@ -63,5 +63,6 @@ header #checkbox-header:checked + ul{
     left: auto;
     text-decoration: none;
     list-style-type: none;
+    top: 76px;
 }
   
