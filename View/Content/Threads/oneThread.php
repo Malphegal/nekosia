@@ -21,7 +21,7 @@
         <hr />
         <div class="post-footer">
             <div class="post-signature">
-                [Votre signature : bientôt]
+                <?= $p->getClient()->getSignature() ?>
             </div>
             <div class="flex-centered">
                 <?php

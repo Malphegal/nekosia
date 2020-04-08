@@ -35,16 +35,18 @@
             $page = "login.php";
             $client = null;
 
-            if (isset($_POST['signin-nickname']) && isset($_POST['signin-pw'])){
+            // Check for a log-in
+            if (isset($_POST["signin-nickname"]) && isset($_POST["signin-pw"]))
+            {
                 $cMan = new ClientManager();
-                $client = $cMan->findWithNameAndPw($_POST['signin-nickname'], hash("sha256", $_POST['signin-pw']));
+                $client = $cMan->findWithNameAndPw($_POST["signin-nickname"], hash("sha256", $_POST["signin-pw"]));
                 
                 if ($client !== false)
                 {
                     if (!$client->getIsBanned())
                     {
                         Session::setCookie(Session::ID_COOKIE, hash("sha256", $client->getId()));
-                        Session::createClientWithObject($client, isset($_POST['signin-remember']) ? 1 : 0);
+                        Session::createClientWithObject($client, isset($_POST["signin-remember"]) ? 1 : 0);
                     }
                     else
                         HomeController::invoke404();
@@ -52,6 +54,56 @@
 
                 $headerLocation = "client" . DS . "profil" . ($profilName == null ? "" : "/" . $profilName);
                 header("Location: " . RELATIVE_DIR . $headerLocation);
+                die();
+            }
+
+            // Check update about
+            if (isset($_POST["update-about"]))
+            {
+                $cMan = new ClientManager();
+                $client = $cMan->findWithName($_SESSION[Session::NICKNAME_SES]);
+
+                // If the Client exists, and not banned
+                if ($client !== false)
+                {
+                    if (!$client->getIsBanned())
+                        $a = $cMan->update($client->getId(), ["about" => str_replace("'", "''", $_POST["update-about"])]);
+                    else
+                    {
+                        Session::destroyClientSession();
+                        HomeController::invoke404();
+                    }
+                }
+                // If the Client does not exist, destroy whole session
+                else
+                    HomeController::invoke404();
+
+                header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
+                die();
+            }
+
+            // Check update signature
+            if (isset($_POST["update-signature"]))
+            {
+                $cMan = new ClientManager();
+                $client = $cMan->findWithName($_SESSION[Session::NICKNAME_SES]);
+
+                // If the Client exists, and not banned
+                if ($client !== false)
+                {
+                    if (!$client->getIsBanned())
+                        $cMan->update($client->getId(), ["signature" => str_replace("'", "''", $_POST["update-signature"])]);
+                    else
+                    {
+                        Session::destroyClientSession();
+                        HomeController::invoke404();
+                    }
+                }
+                // If the Client does not exist, destroy whole session
+                else
+                    HomeController::invoke404();
+
+                header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
                 die();
             }
 

@@ -133,6 +133,10 @@ a.admin-tags::after{
     content: " [Admin]";
 }
 
+p.undefined {
+    color: #999;
+}
+
 *.banned{
     color: #b22
 }

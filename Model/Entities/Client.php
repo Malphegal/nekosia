@@ -26,6 +26,12 @@
      * @method getIsBanned() Get the value of isBanned.
      * @method setIsBanned() Set the value of isBanned.
      * 
+     * @method getSignature() Get the value of signature.
+     * @method setSignature() Set the value of signature.
+     * 
+     * @method getAbout() Get the value of about.
+     * @method setAbout() Set the value of about.
+     * 
      * @method getGrade() Get the value of grade.
      * @method setGrade() Set the value of grade.
      * 
@@ -41,6 +47,8 @@
         private $signedup;
         private $avatar;
         private $isBanned;
+        private $signature;
+        private $about;
         private $grade;
 
         // ---- CONSTRUCTORS ----
@@ -167,6 +175,42 @@
         public function setIsBanned($isBanned)
         {
             $this->isBanned = $isBanned;
+        }
+
+        /**
+         * Get the value of signature.
+         */ 
+        public function getSignature()
+        {
+            return htmlspecialchars($this->signature);
+        }
+
+        /**
+         * Set the value of signature.
+         * 
+         * @param string $signature The new signature value.
+         */ 
+        public function setSignature($signature)
+        {
+            $this->signature = $signature;
+        }
+
+        /**
+         * Get the value of about.
+         */ 
+        public function getAbout()
+        {
+            return htmlspecialchars($this->about);
+        }
+
+        /**
+         * Set the value of about.
+         * 
+         * @param string $about The new about value.
+         */ 
+        public function setAbout($about)
+        {
+            $this->about = $about;
         }
 
         /**
