@@ -21,7 +21,7 @@
         <hr />
         <div class="post-footer">
             <div class="post-signature">
-                <?= $p->getClient()->getSignature() ?>
+                <p><?= App\Utils::newline_to_newp($p->getClient()->getSignature()) ?></p>
             </div>
             <div class="flex-centered">
                 <?php

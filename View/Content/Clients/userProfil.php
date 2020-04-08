@@ -18,7 +18,7 @@
                     <input type="submit" name="" value="Mettre à jour" />
                 </form>
             <?php } else { ?>
-                <?= strlen($args_content->getAbout()) == 0 ? "<p class=\"undefined\">Cette utilisateur préfère rester dans l'ombre.</p>" : "<p>" . $args_content->getAbout() . "</p>" ?>
+                <?= strlen($args_content->getAbout()) == 0 ? "<p class=\"undefined\">Cette utilisateur préfère rester dans l'ombre.</p>" : "<p>" . App\Utils::newline_to_newp($args_content->getAbout()) . "</p>" ?>
             <?php } ?>
         </div>
         <hr />
@@ -30,7 +30,7 @@
                     <input type="submit" name="" value="Mettre à jour" />
                 </form>
             <?php } else { ?>
-                <p><?= $args_content->getSignature() ?></p>
+                <p><?= App\Utils::newline_to_newp($args_content->getSignature()) ?></p>
             <?php } ?>
         </div>
     </div>

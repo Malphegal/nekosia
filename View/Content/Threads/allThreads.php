@@ -9,7 +9,7 @@
 
     </div>
 </div>
-<?php if ($args_content != null) foreach ($args_content as $key => $value){ ?>
+<?php if ($args_content != null) foreach ($args_content as $value){ ?>
     <div class="container inline-thread">
         <div class="flex-centered border-right-80 is-locked">
             <?= $value[0]->getLocked() ? "<img src=\"" . IMG_DIR . "Thread" . DS . "threadLock.png\" class=\"avatar\" />" : "" ?>
