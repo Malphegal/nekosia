@@ -156,14 +156,28 @@
                 header("Location: " . RELATIVE_DIR);
                 die();
             }
-
-            //filter_input(INPUT_POST, "signup-nickname", FILTER_SANITIZE_SPECIAL_CHARS);
-
+            
             if (isset($_POST["signup-nickname"]) && !empty($_POST["signup-nickname"])
-                && isset($_POST["signup-pw"]) && !empty($_POST["signup-pw"])
-                && isset($_POST["signup-email"]) && !empty($_POST["signup-email"])
-                && isset($_FILES["signup-avatar"]) && !empty($_FILES["signup-avatar"]))
+            && isset($_POST["signup-pw"]) && !empty($_POST["signup-pw"])
+            && isset($_POST["signup-email"]) && !empty($_POST["signup-email"])
+            && isset($_FILES["signup-avatar"]) && !empty($_FILES["signup-avatar"]))
             {
+                // -- Check if the inputs are valid
+
+                $nickname = filter_input(INPUT_POST, "signup-nickname", FILTER_VALIDATE_REGEXP,
+                    array("options" => array("regexp"=>'/[A-Za-z0-9]{4,32}/'))
+                );
+                $pw = filter_input(INPUT_POST, "signup-pw", FILTER_VALIDATE_REGEXP,
+                    array("options" => array("regexp"=>'/[A-Za-z0-9]{4,32}/'))
+                );
+                $email = filter_input(INPUT_POST, "signup-email", FILTER_VALIDATE_EMAIL);
+
+                if (!$nickname || !$pw || !$email)
+                {
+                    header("Location: " . RELATIVE_DIR . "client" . DS . "signup");
+                    die();
+                }
+
                 // -- Check if the Client already exists
 
                 $cMan = new ClientManager();
