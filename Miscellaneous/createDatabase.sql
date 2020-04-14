@@ -19,9 +19,12 @@ CREATE TABLE Client(
    pw VARCHAR(50) NOT NULL,
    signedup DATETIME NOT NULL,
    avatar VARCHAR(70),
+   signature VARCHAR(2000),
+   about VARCHAR(2000),
+   is_banned BYTE NOT NULL,
    grade_id INT NOT NULL,
    PRIMARY KEY(id_client),
-   FOREIGN KEY(grade_id) REFERENCES Grade(id_grade)
+   FOREIGN KEY(id_grade) REFERENCES Grade(id_grade)
 );
 
 CREATE TABLE Thread(
@@ -33,8 +36,8 @@ CREATE TABLE Thread(
    theme_id INT NOT NULL,
    client_id INT NOT NULL,
    PRIMARY KEY(id_thread),
-   FOREIGN KEY(theme_id) REFERENCES Theme(id_theme),
-   FOREIGN KEY(client_id) REFERENCES Client(id_client)
+   FOREIGN KEY(id_theme) REFERENCES Theme(id_theme),
+   FOREIGN KEY(id_client) REFERENCES Client(id_client)
 );
 
 CREATE TABLE Post(
@@ -45,6 +48,6 @@ CREATE TABLE Post(
    thread_id INT NOT NULL,
    client_id INT NOT NULL,
    PRIMARY KEY(id_post),
-   FOREIGN KEY(thread_id) REFERENCES Thread(id_thread),
-   FOREIGN KEY(client_id) REFERENCES Client(id_client)
+   FOREIGN KEY(id_thread) REFERENCES Thread(id_thread),
+   FOREIGN KEY(id_client) REFERENCES Client(id_client)
 );
