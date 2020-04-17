@@ -35,6 +35,9 @@
      * @method getGrade() Get the value of grade.
      * @method setGrade() Set the value of grade.
      * 
+     * @method getGrade() Get the value of latestVist.
+     * @method setGrade() Set the value of latestVist.
+     * 
      * @method __toString() ToString override : get the nickname.
      */
     final class Client extends Entity{
@@ -50,6 +53,7 @@
         private $signature;
         private $about;
         private $grade;
+        private $latestVist;
 
         // ---- CONSTRUCTORS ----
 
@@ -230,7 +234,25 @@
         {
             $this->grade = $grade;
         }
-        
+
+        /**
+         * Get the value of latestVisit.
+         */ 
+        public function getLatestVisit()
+        {
+            return $this->latestVisit;
+        }
+
+        /**
+         * Set the value of latestVisit.
+         * 
+         * @param string $latestVisit The new latestVisit value.
+         */ 
+        public function setLatestVisit($latestVisit)
+        {
+            $this->latestVisit = new \DateTime($latestVisit);
+        }
+
         /**
          * ToString override : get the nickname.
          *

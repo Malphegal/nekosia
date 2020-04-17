@@ -61,6 +61,8 @@
                     self::destroyClientSession(true);
                     HomeController::invoke404();
                 }
+                else
+                    self::updateLatestVisit($_SESSION[self::ID_SES]);
             }
         }
         
@@ -195,6 +197,17 @@
             self::destroySessionVariable(self::SIGNEDUP_SES);
             self::destroySessionVariable(self::AVATAR_SES);
             self::destroySessionVariable(self::GRADE_SES);
+        }
+        
+        /**
+         * Update the LatestVisit value of a Client.
+         *
+         * @param int $id The Client id.
+         */
+        private static function updateLatestVisit($id)
+        {
+            $cMan = new ClientManager();
+            $cMan->update($id, ["latest_visit" => date("Y-m-d H:i:s")]);
         }
     }
 ?>

@@ -22,6 +22,7 @@ CREATE TABLE Client(
    signature VARCHAR(2000),
    about VARCHAR(2000),
    is_banned TINYINT NOT NULL,
+   latest_visit DATETIME NOT NULL,
    grade_id INT NOT NULL,
    PRIMARY KEY(id_client),
    FOREIGN KEY(grade_id) REFERENCES Grade(id_grade)
@@ -50,4 +51,13 @@ CREATE TABLE Post(
    PRIMARY KEY(id_post),
    FOREIGN KEY(thread_id) REFERENCES Thread(id_thread),
    FOREIGN KEY(client_id) REFERENCES Client(id_client)
+);
+
+CREATE TABLE Sign(
+   client_id INT,
+   thread_id INT,
+   latest_visit DATETIME NOT NULL,
+   PRIMARY KEY(client_id, thread_id),
+   FOREIGN KEY(client_id) REFERENCES Client(id_client),
+   FOREIGN KEY(thread_id) REFERENCES Thread(id_thread)
 );

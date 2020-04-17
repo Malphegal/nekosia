@@ -3,6 +3,7 @@
 
     use App\Session;
     use Model\Managers\PostManager;
+    use Model\Managers\SignManager;
     use Model\Managers\ThemeManager;
     use Model\Managers\ThreadManager;
 
@@ -15,6 +16,7 @@
      * @method newThread() Allow to create a new Thread.
      * @method lockThread() Allow to lock/unlock a thread.
      * @method about() Show the forum details.
+     * @method subscribe() Allow a Client to subscribe to a Thread.
      * @method invoke404() Invoke the 404.php page, and die().
      */
     class HomeController{
@@ -38,13 +40,26 @@
                 usort($threads, array("Model\\Entities\\Thread", "compare"));
     
                 $pMan = new PostManager();
-                
+                $sMan = new SignManager();
                 $res = [];
                 foreach($threads as $t)
                 {
                     $posts = $pMan->findAllByThreadId($t->getId());
                     usort($posts, array("Model\\Entities\\Post", "compare"));
-                    $res[] = [$t, $posts[0], count($posts)];
+
+                    // Manage the newPosts logo, only if connected
+                    $newThread = false;
+                    $sub = false;
+                    if (Session::isConnected())
+                    {
+                        $sign = $sMan->findOneByIds($t->getId(), $_SESSION[Session::ID_SES]);
+                        if ($sign)
+                        {
+                            $newThread = $pMan->isOneAfterDate($posts, $sign->getLatestVisit());
+                            $sub = true;
+                        }
+                    }
+                    $res[] = [$t, $posts[0], count($posts), $newThread, $sub];
                 }
             }
 
@@ -71,7 +86,7 @@
             $thread = $tMan->findOneById($id);
 
             // If the requested thread does not exist, show the 404 page
-            if ($thread === false)
+            if (!$thread)
                 self::invoke404();
             
             $pMan = new PostManager();
@@ -95,11 +110,25 @@
             // Sort by date
             usort($posts, array("Model\\Entities\\Post", "compare"));
 
+            $sub = false;
+
+            // Manager the Sign table, only if connected
+            if (Session::isConnected())
+            {
+                $sMan = new SignManager();
+                $sign = $sMan->findOneByIds($thread->getId(), $_SESSION[Session::ID_SES]);
+                if ($sign)
+                {
+                    $sMan->update([$thread->getId(), $_SESSION[Session::ID_SES]], date("Y-m-d H:i:s"));
+                    $sub = true;
+                }
+            }
+
             return [
                 "view" => DEFAULT_TEMPLATE,
                 "data" => array("title" => $thread->getTitle(),
                     "content" => "Threads" . DS . "oneThread.php",
-                    "args" => [$thread, $posts],
+                    "args" => [$thread, $posts, $sub],
                     "css" => CSS_LINK . "Threads" . DS . "oneThread.css\" />")
             ];
         }
@@ -249,6 +278,33 @@
                     "args" => null,
                     "css" => "")
             ];
+        }
+        
+        /**
+         * Allow a Client to subscribe to a Thread.
+         *
+         * @param int $threadId The Thread id.
+         */
+        public function subscribe($threadId)
+        {
+            if (!Session::isConnected())
+                self::invoke404();
+
+            $clientId = $_SESSION[Session::ID_SES];
+
+            $sMan = new SignManager();
+            $exist = $sMan->findOneByIds($threadId, $clientId);
+
+            // Add if it does not exist, otherwise create it
+            if ($exist)
+                $sMan->delete($threadId, $clientId);
+            else
+                $sMan->add(["thread_id" => $threadId,
+                    "client_id" => $clientId,
+                    "latest_visit" => date("Y-m-d H:i:s")]);
+
+            header("Location: " . RELATIVE_DIR . "home" . DS . "showThread" . DS . $threadId);
+            die();
         }
 
         /**

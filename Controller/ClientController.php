@@ -219,7 +219,8 @@
                     "signedup" => date("Y-m-d H:i:s"),
                     "avatar" => $avatarPath,
                     "is_banned" => 0,
-                    "grade_id" => $this->defaultClientGrade]);
+                    "grade_id" => $this->defaultClientGrade,
+                    "latest_visit" => date("Y-m-d H:i:s")]);
 
                 // Once the newly account created, connect him
                 $newClient = $cMan->findOneById($idNewClient);

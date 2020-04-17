@@ -8,6 +8,7 @@
      * @method static insert() Allow to do INSERT INTO requests.
      * @method static select() Allow to do SELECT requests.
      * @method static update() Allow to do UPDATE requests.
+     * @method static delete() Allow to do DELETE requests.
      */
     abstract class DAO{
 
@@ -88,12 +89,34 @@
         }
         
         /**
-         * Allow tu update some rows in the database.
+         * Allow to update some rows in the database.
          *
          * @param string $sql The full SQL query.
          * @return bool Return 'true' if everything goes well, otherwise 'false'.
          */
         public static function update($sql)
+        {
+            try
+            {
+                $stmt = self::$bdd->prepare($sql);
+                $stmt->execute();
+                
+                $stmt->closeCursor();
+                return $stmt;
+            }
+            catch(\Exception $e)
+            {
+                echo $e->getMessage(); 
+            }
+        }
+
+        /**
+         * Allow to delete on row in the database.
+         *
+         * @param string $sql The full SQL query.
+         * @return bool Return 'true' if everything goes well, otherwise 'false'.
+         */
+        public static function delete($sql)
         {
             try
             {

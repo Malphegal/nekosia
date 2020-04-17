@@ -9,6 +9,7 @@
      * 
      * @method findAll() Get all records of the database table Post.
      * @method findAllByThreadId() Find all posts filtered by a thread id.
+     * @method isOneAfterDate() Check whether or not one post has been created after a specific date.
      */
     class PostManager extends Manager{
 
@@ -42,5 +43,20 @@
                 DAO::select($sql, ["id" => $id]),
                 $this->className
             );
+        }
+        
+        /**
+         * Check whether or not one post has been created after a specific date.
+         *
+         * @param Post[] $posts The posts.
+         * @param Datetime $date The date.
+         * @return bool Return 'true' if there is at least one post created after the date, otherwise 'false'.
+         */
+        public function isOneAfterDate($posts, $date)
+        {
+            foreach ($posts as $p)
+                if ($p->getCreation() > $date)
+                    return true;
+            return false;
         }
     }
