@@ -1,2 +1,4 @@
 Miscellaneous/guide.jpg
 Miscellaneous/*.zip
+!Public/Img/Avatar/default_avatar.*
+Public/Img/Avatar/*
