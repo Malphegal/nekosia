@@ -258,7 +258,7 @@
             $tMan = new ThreadManager();
             $thread = $tMan->findOneById($id);
 
-            if (!Session::isConnected() || $thread->getClient()->getId() != $_SESSION[Session::ID_SES])
+            if (!Session::isConnected() || $thread->getClient()->getId() != $_SESSION[Session::ID_SES] && !Session::isCurrentAdmin())
                 self::invoke404();
 
             $newValue = $thread->getLocked() ? 0 : 1;
