@@ -15,7 +15,7 @@
     define("DS", DIRECTORY_SEPARATOR);
     
     // -- Directories
-    define("RELATIVE_DIR", DS . "forum" . DS);
+    define("RELATIVE_DIR", "/forum" . DS);
     define("BASE_DIR", __DIR__ . DS);
     define("VIEW_DIR", BASE_DIR . "view" . DS);
     define("FRAGMENT_DIR", VIEW_DIR . "Fragment" . DS);
