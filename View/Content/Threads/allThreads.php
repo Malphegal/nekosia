@@ -25,7 +25,7 @@
         <div class="thread-view-container flex-centered border-left-80">
         <p><time datetime="<?= setLocale(LC_TIME, 'fr_FR'); $value[0]->getCreation()->format('Y-m-d') ?>"><?= $value[0]->getCreation()->format('d M Y') ?></time></p>
             <p><?= $value[2] ?> poste<?= $value[2] > 1 ? "s" : "" ?></p>
-            <p>(0 vue)</p>
+            <p><?= $value[0]->getView() . ($value[0]->getView() > 1 ? " vues" : " vue") ?></p>
         </div>
     </div>
 <?php } else { ?>

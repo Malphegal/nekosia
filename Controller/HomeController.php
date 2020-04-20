@@ -124,6 +124,9 @@
                 }
             }
 
+            // Increase view counter
+            $tMan->update($id, ["view" => $thread->getView() + 1]);
+
             return [
                 "view" => DEFAULT_TEMPLATE,
                 "data" => array("title" => $thread->getTitle(),
@@ -213,6 +216,7 @@
                     "creation" => date("Y-m-d H:i:s"),
                     "locked" => 0,
                     "lattest_edit" => date("Y-m-d H:i:s"),
+                    "view" => 0,
                     "theme_id" => $_POST["newthread-theme"],
                     "client_id" => $_SESSION[Session::ID_SES]]);
                 

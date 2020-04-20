@@ -22,6 +22,9 @@
      * @method getLocked() Get the value of locked.
      * @method setLocked() Set the value of locked.
      * 
+     * @method setView() Get the value of view.
+     * @method getView() Set the value of view.
+     * 
      * @method getTheme() Get the value of theme.
      * @method setTheme() Set the value of theme.
      * 
@@ -37,6 +40,7 @@
         private $creation;
         private $lattestEdit;
         private $locked;
+        private $view;
         private $theme;
         private $client;
 
@@ -137,6 +141,24 @@
         public function setLocked($locked)
         {
             $this->locked = $locked;
+        }
+
+        /**
+         * Get the value of view.
+         */ 
+        public function getView()
+        {
+            return $this->view;
+        }
+
+        /**
+         * Set the value of view.
+         *
+         * @param int $view The new view value.
+         */ 
+        public function setView($view)
+        {
+            $this->view = $view;
         }
 
         /**

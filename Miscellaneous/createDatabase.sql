@@ -34,6 +34,7 @@ CREATE TABLE Thread(
    creation DATETIME NOT NULL,
    locked BOOLEAN NOT NULL,
    lattest_edit DATE,
+   view INT NOT NULL,
    theme_id INT NOT NULL,
    client_id INT NOT NULL,
    PRIMARY KEY(id_thread),
