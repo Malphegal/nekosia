@@ -62,6 +62,9 @@
             // Check update about
             if (isset($_POST["update-about"]))
             {
+                if (!Session::isConnected())
+                    HomeController::invoke404();
+
                 $cMan = new ClientManager();
                 $client = $cMan->findWithName($_SESSION[Session::NICKNAME_SES]);
 
@@ -87,6 +90,9 @@
             // Check update signature
             if (isset($_POST["update-signature"]))
             {
+                if (!Session::isConnected())
+                    HomeController::invoke404();
+
                 $cMan = new ClientManager();
                 $client = $cMan->findWithName($_SESSION[Session::NICKNAME_SES]);
 
@@ -95,6 +101,40 @@
                 {
                     if (!$client->getIsBanned())
                         $cMan->update($client->getId(), ["signature" => str_replace("'", "''", $_POST["update-signature"])]);
+                    else
+                    {
+                        Session::destroyClientSession();
+                        HomeController::invoke404();
+                    }
+                }
+                // If the Client does not exist, destroy whole session
+                else
+                    HomeController::invoke404();
+
+                header("Location: " . RELATIVE_DIR . "client" . DS . "profil");
+                die();
+            }
+
+            // Check update avatar
+            if (isset($_FILES["update-avatar"]))
+            {
+                if (!Session::isConnected())
+                    HomeController::invoke404();
+
+                $cMan = new ClientManager();
+                $client = $cMan->findWithName($_SESSION[Session::NICKNAME_SES]);
+
+                // If the Client exists, and not banned
+                if ($client !== false)
+                {
+                    if (!$client->getIsBanned())
+                    {
+                        // Remove old avatar, if exists, and upload the new one
+                        \App\FileUploader::removeAvatar($_SESSION[Session::AVATAR_SES]);
+                        $avatarPath = \App\FileUploader::uploadFile("update-avatar", $_SESSION[Session::NICKNAME_SES], RELATIVE_DIR . "client" . DS . "profil");
+                        $cMan->update($client->getId(), ["avatar" => $avatarPath]);
+                        $_SESSION[Session::AVATAR_SES] = $avatarPath;
+                    }
                     else
                     {
                         Session::destroyClientSession();
@@ -194,22 +234,7 @@
 
                 // If the user uploaded an image
                 if (!empty($_FILES["signup-avatar"]["name"]))
-                {
-                    // TODO: The file name should be randomized and unique!
-                    $type = $_FILES["signup-avatar"]["type"];
-                    $type = substr($type, strpos($type, "/") + 1);
-                    $avatarPath = AVATAR_DIR . strtolower($_POST["signup-nickname"]) . "." . $type;
-                    
-                    // If the image is NOT valid or does exist already, abort
-                    if (file_exists($avatarPath) || !move_uploaded_file($_FILES["signup-avatar"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . $avatarPath))
-                    {
-                        header("Location: " . RELATIVE_DIR . "client" . DS . "signup");
-                        die();
-                    }
-                    
-                    // For SQL, escape '\'
-                    $avatarPath = str_replace("\\", "\\\\", $avatarPath);
-                }
+                    $avatarPath = \App\FileUploader::uploadFile("signup-avatar", strtolower($_POST["signup-nickname"]), RELATIVE_DIR . "client" . DS . "signup");
                 else
                     $avatarPath = str_replace("\\", "\\\\", AVATAR_DIR . "default_avatar.png");
 

@@ -2,6 +2,12 @@
 <div id="profil-full">
     <div id="profil-info" class="container">
         <img src="<?= $args_content->getAvatar() ?>" />
+        <?php if ($isCurrent): ?>
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="update-avatar" accept=".png, .jpeg, .jpg" />
+                <input type="submit" name="" value="Mettre à jour l'image" />
+            </form>
+        <?php endif; ?>
         <p><?= $args_content ?></p>
         <p><?= $args_content->getEmail() ?></p>
         <p>Nous a rejoint le : <time datetime="<?= $args_content->getSignedup()->format('Y-m-d') ?>"><?= $args_content->getSignedup()->format('d m Y') ?></time></p>

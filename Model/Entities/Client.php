@@ -35,8 +35,8 @@
      * @method getGrade() Get the value of grade.
      * @method setGrade() Set the value of grade.
      * 
-     * @method getGrade() Get the value of latestVist.
-     * @method setGrade() Set the value of latestVist.
+     * @method getLatestVisit() Get the value of latestVist.
+     * @method setLatestVisit() Set the value of latestVist.
      * 
      * @method __toString() ToString override : get the nickname.
      */
@@ -53,7 +53,7 @@
         private $signature;
         private $about;
         private $grade;
-        private $latestVist;
+        private $latestVisit;
 
         // ---- CONSTRUCTORS ----
 
