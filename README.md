@@ -17,6 +17,6 @@ Pour correctement utiliser les redirections, il faut ajouter, au httpd.conf tout
 
 ## Ressources
 
-Un grand merci aux artistes pour les images (probablement temporaire) du site !
+Un grand merci aux artistes pour les images du site !
 
- * [Lap Pun Cheung](https://www.artstation.com/c780162)
+ * [yuri_b](https://pixabay.com/fr/users/yuri_b-2216431/)
